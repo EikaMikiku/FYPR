@@ -1,0 +1,21 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+#gameCanvas {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -200px;
+	background-image: url("../img/sky.png");
+	background-repeat: repeat-x; 
+}
+#mapCanvas {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -200px;
+	background-color: gray;
+}
