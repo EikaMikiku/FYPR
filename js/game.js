@@ -2,8 +2,14 @@ var Game = (function() {
 	var instance;
 	function createInstance() {
 		function Game(){};
-		var mapManager = MapManager();
 		var player = new Player(120, 120);
+		var mapManager = MapManager(player);
+		var rayCaster = RayCaster(player);
+		var loader = Loader().load(function(src) {
+			console.log(src);
+		}, function() {
+			Game.engineLoop();
+		});
 
 		var keyStates = {
 			"w": false,
@@ -14,7 +20,8 @@ var Game = (function() {
 		var mouseLockStatus = false;
 
 		Game.engineLoop = function() {
-			mapManager.render(player);
+			mapManager.render();
+			rayCaster.render();
 			player.frameAction();
 			requestAnimationFrame(Game.engineLoop);
 		};

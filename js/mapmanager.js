@@ -1,12 +1,13 @@
 var MapManager = (function() {
 	var instance;
-	function createInstance() {
+	function createInstance(player) {
 		function MapManager(){};
 		var mapCanvas = document.getElementById("mapCanvas");
 		var mapContext = mapCanvas.getContext("2d");
-		var mapLevel = 0;
+		
+		MapManager.mapLevel = 0; //public
 
-		MapManager.render = function(player) {
+		MapManager.render = function() {
 			mapContext.setTransform(1, 0, 0, 1, 0, 0);
 			mapContext.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
 			mapContext.translate(mapCanvas.width/2, mapCanvas.height/2);
@@ -14,7 +15,7 @@ var MapManager = (function() {
 			mapContext.translate(-player.x, -player.y);
 
 			//Draw current level on map
-			var polygons = LEVELS[mapLevel].data;
+			var polygons = LEVELS[MapManager.mapLevel].data;
 			for(var i = 0; i < polygons.length; i++) {
 				mapContext.beginPath();
 				mapContext.moveTo(polygons[i][0], polygons[i][1]);
@@ -34,8 +35,8 @@ var MapManager = (function() {
 		return MapManager;
 	}
 
-	return function() {
-		if(!instance) instance = createInstance();
+	return function(player) {
+		if(!instance) instance = createInstance(player);
 		return instance;
 	};
 })();

@@ -4,20 +4,21 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<script type="text/javascript" src="js/game.js"></script>
 		<script type="text/javascript" src="js/entity.js"></script>
+		<script type="text/javascript" src="js/polyk.js"></script>
+		<script type="text/javascript" src="js/raycaster.js"></script>
 		<script type="text/javascript" src="js/playerEntity.js"></script>
 		<script type="text/javascript" src="js/mapmanager.js"></script>
 		<script type="text/javascript" src="js/levels.js"></script>
+		<script type="text/javascript" src="js/loader.js"></script>
 	</head>
 	<body>
 		<canvas id="gameCanvas" width="600" height="400"></canvas>
-		<canvas id="mapCanvas" width="600" height="400"></canvas>
+		<canvas id="mapCanvas" width="300" height="200"></canvas>
 	</body>
 	<script type="text/javascript">
 	window.onload = function() {
 		window.TWO_PI = Math.PI*2;
 		window.game = Game();
-		window.game.engineLoop();
-
 	};
 	</script>
 </html>
