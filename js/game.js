@@ -2,7 +2,7 @@ var Game = (function() {
 	var instance;
 	function createInstance() {
 		function Game(){};
-		var player = new Player(120, 120);
+		var player = new Player(100, 95);
 		var mapManager = MapManager(player);
 		var rayCaster = RayCaster(player);
 		var loader = Loader().load(function(src) {
@@ -31,7 +31,6 @@ var Game = (function() {
 		Game.getPlayer = function() {
 			return player;
 		};
-
 		//Events
 		document.addEventListener("keydown", function(e) {
 			if(e.keyCode === 87) {

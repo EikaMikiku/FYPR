@@ -5,14 +5,17 @@ var RayCaster = (function() {
 		var gameCanvas = document.getElementById("gameCanvas");
 		var gameContext = gameCanvas.getContext("2d");
 		gameContext.imageSmoothingEnabled = false;
+		gameContext.mozImageSmoothingEnabled = false;
 		var STRIP_WIDTH = 2;
 		var RAY_COUNT = Math.round(gameCanvas.width / STRIP_WIDTH);
 		var PLANE_DISTANCE = (gameCanvas.width / 2) / Math.tan(player.fov / 2);
 		var MAX_WALL_HEIGHT = 10;
+		window.VISIBILITY_RANGE = 40; //TUNED
 		var mapManager = MapManager();
 		var loader = Loader();
 
 		RayCaster.render = function() {
+			updateSky();
 			gameContext.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 			for(var col = 0; col < RAY_COUNT; col++) {
 				var rayScreenPos = (col - RAY_COUNT/2) * STRIP_WIDTH;
@@ -27,14 +30,15 @@ var RayCaster = (function() {
 				var columnTopOffset = null;
 				var polygonData = LEVELS[mapManager.mapLevel].data;
 				var polygon = null;
-				var edge;
+				var edge = null;
+				var edgeNorm = null;
 
 				for(var pIdx = 0; pIdx < polygonData.length; pIdx++) {
 					var rayInfo = PolyK.Raycast(polygonData[pIdx], player.x, player.y, cos_rayAng, sin_rayAng);
 					if(rayInfo && (!dist || dist > rayInfo.dist)) {
 						dist = rayInfo.dist;
 						edge = rayInfo.edge;
-						//edgeNorm = rayInfo.norm;
+						edgeNorm = rayInfo.norm;
 						polygon = polygonData[pIdx];
 					}
 				}
@@ -42,7 +46,7 @@ var RayCaster = (function() {
 				rayDestX = player.x + cos_rayAng*dist;
 				rayDestY = player.y + sin_rayAng*dist;
 				dist = dist * Math.cos(player.angle - rayAngle);
-				columnHeight = Math.round((MAX_WALL_HEIGHT / dist) * PLANE_DISTANCE); 
+				columnHeight = Math.round((MAX_WALL_HEIGHT / dist) * PLANE_DISTANCE);
 				columnTopOffset = (gameCanvas.height / (MAX_WALL_HEIGHT / player.height)) - (columnHeight / 2);
 				
 				var wallImg = loader.res.img["img/wall0.png"];
@@ -57,9 +61,21 @@ var RayCaster = (function() {
 					col*STRIP_WIDTH, columnTopOffset, 	//From canvas point
 					STRIP_WIDTH, columnHeight 			//To canvas size
 				);
-				//gameContext.fillRect(col*STRIP_WIDTH, columnTopOffset, STRIP_WIDTH, columnHeight);
+				
+				//Apply simple lighting + distance based lighting
+				var edgeAngle = Math.atan2(edgeNorm.x, edgeNorm.y); //Swapped because polyk coordinate system is different
+				var lightAngleNormalised = Math.abs(edgeAngle / Math.PI) / 2; //Reduce effect
+				var shade = VISIBILITY_RANGE / columnHeight / (1-lightAngleNormalised);
+				if(shade > 0.95) shade = 0.95;
+				gameContext.fillStyle = "rgba(0,0,0," + shade + ")";
+				gameContext.fillRect(col*STRIP_WIDTH, columnTopOffset-1, STRIP_WIDTH, columnHeight+2);
 			}
 		};
+
+		function updateSky() {
+			var left = window.GAME_CANVAS_BG_WIDTH * player.angle / window.TWO_PI;
+			gameCanvas.style.backgroundPosition = -left + "px 0";
+		}
 
 		function getDistance(x1, y1, x2, y2) {
 			var xDiff = x1-x2;
