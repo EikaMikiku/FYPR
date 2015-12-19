@@ -2,7 +2,7 @@ var Game = (function() {
 	var instance;
 	function createInstance() {
 		function Game(){};
-		var player = new Player(110, 150, 0);
+		var player = new Player(15, 15, Math.PI/2);
 		var mapManager = MapManager(player);
 		Game.frameCount = 0;
 		Game.npcs = generateNpcsArray(mapManager.mapLevel);
