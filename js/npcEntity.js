@@ -1,6 +1,8 @@
 function Npc(obj) {
 	this.base = Entity;
-	this.base(obj.x, obj.y, "npc", obj.angle, obj.moveSpeed);
+	this.base(obj.x, obj.y, "npc", obj.angle);
+	this.moveSpeed = obj.moveSpeed;
+	this.roamSpeed = obj.roamSpeed;
 	this.originX = obj.x;
 	this.originY = obj.y;
 	this.npcName = obj.npcName;
@@ -50,8 +52,8 @@ Npc.prototype.move = function() {
 			this.angle = Math.atan2(diffY, diffX);
 		}
 
-		var cx = Math.cos(this.angle) * this.speed;
-		var cy = Math.sin(this.angle) * this.speed;
+		var cx = Math.cos(this.angle) * this.roamSpeed;
+		var cy = Math.sin(this.angle) * this.roamSpeed;
 		//Dont need collision check when roaming, potential unreachable target
 		//And the target chosen should be directly obtainable
 		this.x += cx;
@@ -70,8 +72,8 @@ Npc.prototype.move = function() {
 		var diffX = window.game.getPlayer().x - this.x;
 		var diffY = window.game.getPlayer().y - this.y;
 		this.angle = Math.atan2(diffY, diffX);
-		var cx = Math.cos(this.angle) * this.speed;
-		var cy = Math.sin(this.angle) * this.speed;
+		var cx = Math.cos(this.angle) * this.moveSpeed;
+		var cy = Math.sin(this.angle) * this.moveSpeed;
 		this.x += cx;
 		this.y += cy;
 		if(!this.isPlayerVisible()) {

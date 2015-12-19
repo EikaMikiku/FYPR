@@ -1,10 +1,9 @@
-function Entity(x, y, type, angle, speed) {
+function Entity(x, y, type, angle) {
 	this.x = x || 0;
 	this.y = y || 0;
 	this.type = type || "generic";
 	this.COLLISION_MARGIN = 3;
 	this.angle = angle || 0;
-	this.speed = speed || 0;
 }
 Entity.prototype.frameAction = function() { };
 Entity.prototype.collisionPass = function(cx, cy) {

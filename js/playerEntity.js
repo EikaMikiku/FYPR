@@ -1,6 +1,7 @@
 function Player(x, y, angle) {
 	this.base = Entity;
-	this.base(x, y, "player", angle, 0.8);
+	this.base(x, y, "player", angle);
+	this.moveSpeed = 0.8;
 	this.height = 5;
 	this.fov = 60 * Math.PI / 180;
 	this.rotSpeed = Math.PI / 70;
@@ -65,8 +66,8 @@ Player.prototype.move = function() {
 		}
 	}
 	if(keyStates.s || keyStates.w || (this.mouseLock && (keyStates.d || keyStates.a))) {
-		var cx = Math.cos(this.angle + playerAngleOffset) * this.speed;
-		var cy = Math.sin(this.angle + playerAngleOffset) * this.speed;
+		var cx = Math.cos(this.angle + playerAngleOffset) * this.moveSpeed;
+		var cy = Math.sin(this.angle + playerAngleOffset) * this.moveSpeed;
 		var newPos = this.collisionPass(cx, cy);
 		this.x = newPos.x;
 		this.y = newPos.y;
