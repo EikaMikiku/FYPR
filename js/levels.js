@@ -65,20 +65,25 @@ var LEVELS = {
 				110, 60,
 				100, 70
 			]
-		]
-	},
-	"1":
-	{
-		"name": "Sun test",
-		"data":
+		],
+		"textures": //1 per polygon
 		[
-			[
-				0, 0,
-				0, 10,
-				10, 10,
-				10, 0
-			]
+			"img/wallTextures/lev0wall0.png",
+			"img/wallTextures/lev0wall1.png"
+		],
+		"npcs": [
+			{
+				"npcName": "marine",
+				"aggressive": true,
+				"x": 30,
+				"y": 110,
+				"angle": 0,
+				"isRoaming": true,
+				"attackRange": 50,
+				"viewRange": 80,
+				"moveSpeed": 1,
+				"hp": 100
+			}
 		]
 	}
-
 };

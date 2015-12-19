@@ -5,12 +5,44 @@ var Loader = (function() {
 	var instance;
 	function createInstance() {
 		function Loader(){};
-		var resourceCount = 2;
+		var resourceCount = 34;
 		var currentlyLoaded = 0;
 		Loader.res = {
 			"img": {
-				"img/wall0.png": null,
-				"img/wall1.png": null
+				"img/wallTextures/lev0wall0.png": null,
+				"img/wallTextures/lev0wall1.png": null,
+				"img/sprites/marine/walk/0_0.png": null,
+				"img/sprites/marine/walk/0_1.png": null,
+				"img/sprites/marine/walk/0_2.png": null,
+				"img/sprites/marine/walk/0_3.png": null,
+				"img/sprites/marine/walk/45_0.png": null,
+				"img/sprites/marine/walk/45_1.png": null,
+				"img/sprites/marine/walk/45_2.png": null,
+				"img/sprites/marine/walk/45_3.png": null,
+				"img/sprites/marine/walk/90_0.png": null,
+				"img/sprites/marine/walk/90_1.png": null,
+				"img/sprites/marine/walk/90_2.png": null,
+				"img/sprites/marine/walk/90_3.png": null,
+				"img/sprites/marine/walk/135_0.png": null,
+				"img/sprites/marine/walk/135_1.png": null,
+				"img/sprites/marine/walk/135_2.png": null,
+				"img/sprites/marine/walk/135_3.png": null,
+				"img/sprites/marine/walk/180_0.png": null,
+				"img/sprites/marine/walk/180_1.png": null,
+				"img/sprites/marine/walk/180_2.png": null,
+				"img/sprites/marine/walk/180_3.png": null,
+				"img/sprites/marine/walk/225_0.png": null,
+				"img/sprites/marine/walk/225_1.png": null,
+				"img/sprites/marine/walk/225_2.png": null,
+				"img/sprites/marine/walk/225_3.png": null,
+				"img/sprites/marine/walk/270_0.png": null,
+				"img/sprites/marine/walk/270_1.png": null,
+				"img/sprites/marine/walk/270_2.png": null,
+				"img/sprites/marine/walk/270_3.png": null,
+				"img/sprites/marine/walk/315_0.png": null,
+				"img/sprites/marine/walk/315_1.png": null,
+				"img/sprites/marine/walk/315_2.png": null,
+				"img/sprites/marine/walk/315_3.png": null,				
 			},
 			"sounds": {
 

@@ -2,27 +2,32 @@ var Game = (function() {
 	var instance;
 	function createInstance() {
 		function Game(){};
-		var player = new Player(100, 95);
+		var player = new Player(110, 150, 0);
 		var mapManager = MapManager(player);
-		var rayCaster = RayCaster(player);
+		Game.frameCount = 0;
+		Game.npcs = generateNpcsArray(mapManager.mapLevel);
+		var gameCanvas = document.getElementById("gameCanvas");
+		var rayCaster = RayCaster(gameCanvas, player);
 		var loader = Loader().load(function(src) {
 			console.log(src);
 		}, function() {
 			Game.engineLoop();
 		});
-
 		var keyStates = {
 			"w": false,
 			"s": false,
 			"a": false,
 			"d": false
 		};
-		var mouseLockStatus = false;
 
 		Game.engineLoop = function() {
+			player.frameAction();
+			for(var i = 0; i < Game.npcs.length; i++) {
+				Game.npcs[i].frameAction();
+			}
 			mapManager.render();
 			rayCaster.render();
-			player.frameAction();
+			Game.frameCount++;
 			requestAnimationFrame(Game.engineLoop);
 		};
 		Game.getKeyStates = function() {
@@ -31,6 +36,16 @@ var Game = (function() {
 		Game.getPlayer = function() {
 			return player;
 		};
+
+		function generateNpcsArray(level) {
+			var arr = [];
+			var npcs = LEVELS[level].npcs;
+			for(npc in npcs) {
+				arr.push(new Npc(npcs[npc]));
+			}
+			return arr;
+		}
+
 		//Events
 		document.addEventListener("keydown", function(e) {
 			if(e.keyCode === 87) {
@@ -53,6 +68,9 @@ var Game = (function() {
 			} else if(e.keyCode === 68) {
 				keyStates.d = false;
 			}
+		});
+		gameCanvas.addEventListener("click", function(e) {
+			gameCanvas.requestPointerLock();
 		});
 
 		return Game;
