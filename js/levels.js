@@ -75,14 +75,17 @@ var LEVELS = {
 			{
 				"npcName": "marine",
 				"aggressive": true,
-				"x": 30,
-				"y": 110,
+				"x": 60,
+				"y": 140,
 				"angle": 0,
 				"isRoaming": true,
 				"attackRange": 50,
-				"viewRange": 80,
-				"moveSpeed": 1,
-				"hp": 100
+				"viewRange": 90,
+				"moveSpeed": 0.1,
+				"hp": 100,
+				"roamDist": 30,
+				"minimapColor": "red",
+				"fov": 160 * Math.PI / 180
 			}
 		]
 	}
