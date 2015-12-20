@@ -5,12 +5,22 @@ var Loader = (function() {
 	var instance;
 	function createInstance() {
 		function Loader(){};
-		var resourceCount = 34;
+		var resourceCount = 42;
 		var currentlyLoaded = 0;
 		Loader.res = {
 			"img": {
 				"img/wallTextures/lev0wall0.png": null,
 				"img/wallTextures/lev0wall1.png": null,
+
+				"img/sprites/marine/idle/0_0.png": null,
+				"img/sprites/marine/idle/45_0.png": null,
+				"img/sprites/marine/idle/90_0.png": null,
+				"img/sprites/marine/idle/135_0.png": null,
+				"img/sprites/marine/idle/180_0.png": null,
+				"img/sprites/marine/idle/225_0.png": null,
+				"img/sprites/marine/idle/270_0.png": null,
+				"img/sprites/marine/idle/315_0.png": null,
+
 				"img/sprites/marine/walk/0_0.png": null,
 				"img/sprites/marine/walk/0_1.png": null,
 				"img/sprites/marine/walk/0_2.png": null,
@@ -42,7 +52,7 @@ var Loader = (function() {
 				"img/sprites/marine/walk/315_0.png": null,
 				"img/sprites/marine/walk/315_1.png": null,
 				"img/sprites/marine/walk/315_2.png": null,
-				"img/sprites/marine/walk/315_3.png": null,				
+				"img/sprites/marine/walk/315_3.png": null
 			},
 			"sounds": {
 

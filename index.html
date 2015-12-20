@@ -14,19 +14,24 @@
 		<script type="text/javascript" src="js/loader.js"></script>
 	</head>
 	<body>
-		<div>WASD to move!</div>
+		<div>WASD to move! E to interact!</div>
 		<div>Click on <u>gamescreen</u> for mouse lock! (You can strafe using "A" and "D" in mouse lock)</div>
-		<canvas id="gameCanvas" width="600" height="400"></canvas>
-		<canvas id="mapCanvas" width="300" height="200"></canvas>
+		<div id="gameContainer" class="border">
+			<canvas id="gameCanvas" width="600" height="400"></canvas>
+		</div>
+		<div id="minimapContainer" class="border">
+			<canvas id="mapCanvas" width="200" height="200"></canvas>
+		</div>
+		<img id="interactHelp" src="img/interactHelp.png" />
+		<div id="dialogWindowContainer" class="border">
+			<div id="dialogWindow"></div>
+		</div>
 	</body>
 	<script type="text/javascript">
 	window.onload = function() {
 		window.TWO_PI = Math.PI*2;
 		window.GAME_CANVAS_BG_WIDTH = 3600;
 		window.game = Game();
-	};
-	document.getElementById("mapCanvas").onclick = function() {
-		alert("Not the minimap you mong")
 	};
 	</script>
 </html>

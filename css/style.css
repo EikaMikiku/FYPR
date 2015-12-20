@@ -3,20 +3,124 @@
 	padding: 0px;
 	font-family: consolas;
 }
-#gameCanvas {
+.border {
+	padding: 20px;
+	background:
+		url("../img/border/topleftcorner.png"),
+		url("../img/border/toprightcorner.png"),
+		url("../img/border/bottomleftcorner.png"),
+		url("../img/border/bottomrightcorner.png"),
+		url("../img/border/left.png"),
+		url("../img/border/right.png"),
+		url("../img/border/top.png"),
+		url("../img/border/bottom.png");
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat,
+		no-repeat,
+		repeat-y,
+		repeat-y,
+		repeat-x,
+		repeat-x;
+	background-position:
+		top left,
+		top right,
+		bottom left,
+		bottom right,
+		top left,
+		top right,
+		top left,
+		bottom left;
+}
+#gameContainer {
 	position: absolute;
 	left: 50%;
 	top: 50%;
 	margin-left: -300px;
 	margin-top: -100px;
-	background-image: url("../img/sky.png");
-	background-repeat: repeat-x; 
+	z-index: 100;
 }
-#mapCanvas {
+#gameCanvas {
+	background-image: url("../img/sky.png");
+	background-repeat: repeat-x;
+}
+#minimapContainer {
 	position: absolute;
 	left: 50%;
 	top: 50%;
 	margin-left: -300px;
-	margin-top: -300px;
-	background-color: gray;
+	margin-top: -340px;
+	z-index: 99;
+}
+#mapCanvas {
+	background-color: white;
+}
+#dialogWindowContainer {
+	width: 360px;
+	height: 200px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -60px;
+	margin-top: -340px;
+	background-color: black;
+}
+#dialogWindow {
+	background: radial-gradient(ellipse at 180px 100px, rgba(0,255,119,0.45) 0%,rgba(255,255,255,0) 100%);
+	width: 330px;
+	height: 170px;
+    color: #18FF62;
+    text-shadow: 0px 0px 2px rgba(10, 255, 10, .8);
+    font-family: monospace;
+    padding: 15px;
+    overflow: hidden;
+}
+#dialogWindow:before {
+	content: '';
+	width: 360px;
+	height: 200px;
+    margin: 20px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #000;
+    background: linear-gradient(#fff 50%, #000 50%);
+    background-size: 100% 4px;
+    background-repeat: repeat-y;
+    opacity: 0.10;
+    box-shadow: inset 0px 0px 10px 10px rgba(0, 0, 0, .8);
+}
+#dialogWindow:after {
+    content: '';
+	width: 360px;
+	height: 200px;
+    margin: 30px;
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background-color: #00ff77;
+    background: -moz-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%, rgba(0,0,0,0.62) 45%, rgba(0,9,4,0.6) 47%, rgba(0,255,119,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,1)), color-stop(45%,rgba(0,0,0,0.62)), color-stop(47%,rgba(0,9,4,0.6)), color-stop(100%,rgba(0,255,119,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%,rgba(0,0,0,0.62) 45%,rgba(0,9,4,0.6) 47%,rgba(0,255,119,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%,rgba(0,0,0,0.62) 45%,rgba(0,9,4,0.6) 47%,rgba(0,255,119,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%,rgba(0,0,0,0.62) 45%,rgba(0,9,4,0.6) 47%,rgba(0,255,119,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%,rgba(0,0,0,0.62) 45%,rgba(0,9,4,0.6) 47%,rgba(0,255,119,1) 100%);
+    box-shadow: inset 0px 0px 40px 40px rgba(100, 100, 100, .5);
+    border-radius: 20px;
+    opacity: .1;
+}
+.dialogSpan {
+	display: block;
+	margin-bottom: 10px;
+	font-size: 16px;
+}
+#interactHelp {
+	display: none;
+    position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -272px;
+	margin-top: 280px;
+	z-index: 101;
 }

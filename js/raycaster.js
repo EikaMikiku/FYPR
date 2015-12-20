@@ -81,11 +81,18 @@ var RayCaster = (function() {
 			}
 
 			//Render sprites
+			var foundInteractableNpc = false;
 			for(var i = 0; i < window.game.npcs.length; i++) {
 				var npc = window.game.npcs[i];
 				var diffx = npc.x - player.x;
 				var diffy = npc.y - player.y;
 				var dist = Math.sqrt(diffx*diffx + diffy*diffy);
+				if(!npc.aggressive && npc.interactable &&
+					dist < player.interactDistance && player.isNpcVisible(npc)) {
+					player.showInteractAvailable(npc);
+					foundInteractableNpc = true;
+				}
+
 				var angDiff = Math.atan2(diffy, diffx);
 				var spriteRotQuad = angDiff + Math.PI - npc.angle + window.TWO_PI; //atan to 2pi, -possible2pi + 2pi
 				spriteRotQuad = spriteRotQuad > window.TWO_PI ? spriteRotQuad - window.TWO_PI : spriteRotQuad;
@@ -108,7 +115,7 @@ var RayCaster = (function() {
 					spriteRotQuad = 45;
 				}
 				var angToPlayer = angDiff - player.angle;
-				var imgSrc = "img/sprites/" + npc.npcName + "/" + npc.action + "/" + spriteRotQuad + "_" + npc.currentSpriteId + ".png";
+				var imgSrc = "img/sprites/" + npc.spriteName + "/" + npc.action + "/" + spriteRotQuad + "_" + npc.currentSpriteId + ".png";
 				var img = Loader().res.img[imgSrc];
 				var imgProportion = img.width / img.height;
 				var ySize = Math.round(MAX_WALL_HEIGHT * PLANE_DISTANCE / (Math.cos(angToPlayer) * dist));
@@ -132,6 +139,11 @@ var RayCaster = (function() {
 					gameContext.drawImage(img, imagePos, 0, 1, img.height, screenPos, yOffset, STRIP_WIDTH, ySize);
 					//TODO: Sprite shading
 				}
+			}
+			//Check for interaction
+
+			if(player.showingInteractHelp && !foundInteractableNpc) {
+				player.hideInteractAvailable();
 			}
 		};
 

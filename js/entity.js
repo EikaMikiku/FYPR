@@ -1,9 +1,10 @@
-function Entity(x, y, type, angle) {
+function Entity(x, y, type, angle, fov) {
 	this.x = x || 0;
 	this.y = y || 0;
 	this.type = type || "generic";
 	this.COLLISION_MARGIN = 3;
 	this.angle = angle || 0;
+	this.fov = fov;
 }
 Entity.prototype.frameAction = function() { };
 Entity.prototype.collisionPass = function(cx, cy) {
@@ -34,4 +35,20 @@ Entity.prototype.collisionPass = function(cx, cy) {
 		}
 		return false;
 	}
+};
+Entity.prototype.isPointNotBlocked = function(x, y) {
+	var diffX = x - this.x;
+	var diffY = y - this.y;
+	var polygonData = LEVELS[MapManager().mapLevel].data;
+	var rayMinDistToPoint = Infinity;
+	var distToPoint = Math.sqrt(diffX*diffX + diffY*diffY);
+	for(var pIdx = 0; pIdx < polygonData.length; pIdx++) {
+		var rayInfo = PolyK.Raycast(polygonData[pIdx], this.x, this.y, diffX, diffY);
+		if(rayInfo && rayInfo.dist < rayMinDistToPoint) {
+			rayMinDistToPoint = rayInfo.dist;
+		}
+	}
+	//if true, this means that the point is not blocked by wall, because
+	//the closest wall hit by the ray is further than a point distance
+	return rayMinDistToPoint > distToPoint ? distToPoint : false;
 };

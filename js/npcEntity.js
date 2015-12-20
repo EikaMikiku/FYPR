@@ -1,17 +1,18 @@
 function Npc(obj) {
 	this.base = Entity;
-	this.base(obj.x, obj.y, "npc", obj.angle);
+	this.base(obj.x, obj.y, "npc", obj.angle, obj.fov);
 	this.moveSpeed = obj.moveSpeed;
 	this.roamSpeed = obj.roamSpeed;
 	this.originX = obj.x;
 	this.originY = obj.y;
 	this.npcName = obj.npcName;
+	this.spriteName = obj.spriteName;
 	this.aggressive = obj.aggressive;
 	this.roaming = obj.isRoaming;
 	this.attackRange = obj.attackRange;
 	this.viewRange = obj.viewRange;
 	this.hp = obj.hp;
-	this.action = "walk";
+	this.action = "idle";
 	this.currentSpriteId = 0;
 	this.spriteStartFrame = 0;
 	this.currentRoamTarget = null;
@@ -20,16 +21,18 @@ function Npc(obj) {
 	this.roamDist = obj.roamDist;
 	this.roamTargetMargin = 3*3; //To avoid sqrt
 	this.minimapColor = obj.minimapColor;
-	this.fov = obj.fov;
 	this.attacking = false;
+	this.interactable = obj.interactable;
+	this.interactiveText = obj.interactiveText;
+	this.interactionId = 0;
 }
 Npc.prototype = new Entity; //Load generic entity functions
 Npc.prototype.updateSprite = function() {
-	var spriteLength = SPRITES[this.npcName][this.action].delays[this.currentSpriteId];
+	var spriteLength = SPRITES[this.spriteName][this.action].delays[this.currentSpriteId];
 	if(this.spriteStartFrame + spriteLength <= window.game.frameCount) {
 		//Change sprite
 		this.currentSpriteId++;
-		if(this.currentSpriteId == SPRITES[this.npcName][this.action].frameCount) {
+		if(this.currentSpriteId == SPRITES[this.spriteName][this.action].frameCount) {
 			this.currentSpriteId = 0;
 		}
 		this.spriteStartFrame = window.game.frameCount;
@@ -37,6 +40,7 @@ Npc.prototype.updateSprite = function() {
 };
 Npc.prototype.move = function() {
 	if(this.roaming) {
+		this.action = "walk";
 		if(this.reachedRoamTarget) {
 			this.reachedRoamTarget = false;
 			//Setup a new target
@@ -45,7 +49,7 @@ Npc.prototype.move = function() {
 					"x": this.originX + Math.random()*(this.roamDist*2) - this.roamDist,
 					"y": this.originY + Math.random()*(this.roamDist*2) - this.roamDist
 				};
-			} while(!this.isPointVisible(this.currentRoamTarget.x, this.currentRoamTarget.y));
+			} while(!this.isPointNotBlocked(this.currentRoamTarget.x, this.currentRoamTarget.y));
 
 			var diffX = this.currentRoamTarget.x - this.x;
 			var diffY = this.currentRoamTarget.y - this.y;
@@ -74,8 +78,9 @@ Npc.prototype.move = function() {
 		this.angle = Math.atan2(diffY, diffX);
 		var cx = Math.cos(this.angle) * this.moveSpeed;
 		var cy = Math.sin(this.angle) * this.moveSpeed;
-		this.x += cx;
-		this.y += cy;
+		var posInfo = this.collisionPass(cx, cy);
+		this.x = posInfo.x;
+		this.y = posInfo.y;
 		if(!this.isPlayerVisible()) {
 			this.originX = this.x;
 			this.originY = this.y;
@@ -85,30 +90,9 @@ Npc.prototype.move = function() {
 		}
 	}
 };
-Npc.prototype.isPointVisible = function(x, y) {
-	var diffX = x - this.x;
-	var diffY = y - this.y;
-	var polygonData = LEVELS[MapManager().mapLevel].data;
-	var rayMinDistToPlayer = Infinity;
-	var distToPoint = Math.sqrt(diffX*diffX + diffY*diffY);
-	for(var pIdx = 0; pIdx < polygonData.length; pIdx++) {
-		var rayInfo = PolyK.Raycast(polygonData[pIdx], this.x, this.y, diffX, diffY);
-		if(rayInfo && rayInfo.dist < rayMinDistToPlayer) {
-			rayMinDistToPlayer = rayInfo.dist;
-		}
-	}
-	//var rayDestX = this.x + xVec * rayMinDistToPlayer;
-	//var rayDestY = this.y + yVec * rayMinDistToPlayer;
-
-	//if true, this means that the player is visible, because
-	//the closest wall hit by the ray is further than a player distance
-	//AND
-	//player is within view range
-	return rayMinDistToPlayer > distToPoint ? distToPoint : false;
-};
 Npc.prototype.isPlayerVisible = function() {
 	var player = window.game.getPlayer();
-	var dist = this.isPointVisible(player.x, player.y);
+	var dist = this.isPointNotBlocked(player.x, player.y);
 	//if player falls into npc view range
 	if(dist && this.viewRange - dist > 0) {
 		//Check if player falls into npc FOV
@@ -126,4 +110,24 @@ Npc.prototype.isPlayerVisible = function() {
 Npc.prototype.frameAction = function() {
 	this.move();
 	this.updateSprite();
+};
+Npc.prototype.getInteracted = function(interactorAngle) {
+	this.angle = interactorAngle + Math.PI;
+	this.angle %= window.TWO_PI;
+
+	var date = new Date();
+	var sec = date.getSeconds();
+	sec = sec < 10 ? "0"+sec : sec;
+	var min = date.getMinutes();
+	min = min < 10 === 1 ? "0"+min : min;
+	var hour = date.getHours();
+	hour = hour < 10 === 1 ? "0"+hour : hour;
+	var dateStr = "["+hour+":"+min+":"+sec+"]"
+	this.say(dateStr + " " + this.npcName + ": " + this.interactiveText[this.interactionId++]);
+	if(this.interactionId === this.interactiveText.length) {
+		this.interactionId = 0;
+	}
+};
+Npc.prototype.say = function(text) {
+	window.game.addToTerminal(text);
 };

@@ -1,31 +1,62 @@
 function Player(x, y, angle) {
 	this.base = Entity;
-	this.base(x, y, "player", angle);
+	this.base(x, y, "player", angle, 60 * Math.PI / 180);
 	this.moveSpeed = 0.8;
 	this.height = 5;
-	this.fov = 60 * Math.PI / 180;
 	this.rotSpeed = Math.PI / 70;
 	this.mouseLock = false;
+	this.interactDistance = 15;
+	this.showingInteractHelp = false;
+	this.interactHelpElem = document.getElementById("interactHelp");
 	var pointerLockElement = null;
 
-	document.addEventListener('pointerlockchange', onPointerLockChange.bind(this));
-	document.addEventListener('mozpointerlockchange', onPointerLockChange.bind(this));
+	document.addEventListener("pointerlockchange", onPointerLockChange.bind(this));
+	document.addEventListener("mozpointerlockchange", onPointerLockChange.bind(this));
+	document.addEventListener("keyup", function(e) {
+		if(e.keyCode === 69) {
+			attemptInteract(this);
+		}
+	}.bind(this));
+
+	function attemptInteract(that) {
+		var npcs = window.game.npcs;
+		var minDist = Infinity;
+		var minDistNpc = null;
+		var allowedDistance = that.interactDistance * that.interactDistance;
+		for(var i = 0; i < npcs.length; i++) {
+			var npc = npcs[i];
+			if(!npc.aggressive) {
+				var diffX = that.x - npc.x;
+				var diffY = that.y - npc.y;
+				var dist = diffX*diffX + diffY*diffY;
+				if(dist < allowedDistance) {
+					if(!minDistNpc || dist < minDist) {
+						minDist = dist;
+						minDistNpc = npc;
+					}
+				}
+			}
+		}
+		if(minDistNpc && that.isNpcVisible(minDistNpc)) {
+			minDistNpc.getInteracted(that.angle);
+		}
+	}
 
 	function onPointerLockChange() {
 		var elem = document.pointerLockElement || document.mozPointerLockElement;
-		console.log(elem);
 		if(elem) {
+			pointerLockElement = elem
 			this.mouseLock = true;
 			elem.onmousemove = mouseRotate.bind(this);
 		} else {
 			this.mouseLock = false;
-			elem.onmousemove = null;
+			pointerLockElement.onmousemove = null;
 		}
 	}
 
 	function mouseRotate(e) {
 		var amount = e.movementX || e.mozMovementX;
-		console.log(amount);
+		if(!amount) return;
 		this.angle += amount / 360;
 		if(this.angle > Math.PI*2) {
 			this.angle -= Math.PI*2;
@@ -79,6 +110,32 @@ Player.prototype.move = function() {
 		this.y = newPos.y;
 	}
 };
+Player.prototype.isNpcVisible = function(npc) {
+	var notBlocked = this.isPointNotBlocked(npc.x, npc.y);
+	//if npc falls into range
+	if(notBlocked) {
+		//Check if npc falls into players FOV
+		var diffx = this.x - npc.x;
+		var diffy = this.y - npc.y;
+		var angDiff = Math.atan2(diffy, diffx) - this.angle + window.TWO_PI;
+		angDiff %= window.TWO_PI;
+		//Math.PI = looking straight at me
+		//therefore Math.PI -halfFov is edge and +halfFov is another edge
+		var halfFov = this.fov / 2;
+		return angDiff > Math.PI-halfFov && angDiff < Math.PI+halfFov;
+	}
+	return false;
+};
 Player.prototype.frameAction = function() {
 	this.move();
+};
+Player.prototype.showInteractAvailable = function(npc) {
+	if(!this.showingInteractHelp) {
+		this.interactHelpElem.style.display = "block";
+		this.showingInteractHelp = true;
+	}
+};
+Player.prototype.hideInteractAvailable = function() {
+	this.interactHelpElem.style.display = "none";
+	this.showingInteractHelp = false;
 };
