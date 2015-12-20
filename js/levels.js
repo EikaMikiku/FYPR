@@ -110,7 +110,7 @@ var LEVELS = {
 				"interactiveText": [
 					"What the fuck did you just fucking say about me, you little bitch?",
 					"I'll have you know I graduated top of my class in the Navy Seals.",
-					"I've been involved in numerous secret raids on Al-Quaeda",
+					"I've been involved in numerous secret raids on Al-Quaeda.",
 					"I have over 300 confirmed kills.",
 					"I am trained in gorilla warfare.",
 					"I'm the top sniper in the entire US armed forces.",
