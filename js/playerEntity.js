@@ -8,19 +8,25 @@ function Player(x, y, angle) {
 	this.mouseLock = false;
 	var pointerLockElement = null;
 
-	document.addEventListener('pointerlockchange', function() {
-		if(document.pointerLockElement) {
-			pointerLockElement = document.pointerLockElement;
+	document.addEventListener('pointerlockchange', onPointerLockChange.bind(this));
+	document.addEventListener('mozpointerlockchange', onPointerLockChange.bind(this));
+
+	function onPointerLockChange() {
+		var elem = document.pointerLockElement || document.mozPointerLockElement;
+		console.log(elem);
+		if(elem) {
 			this.mouseLock = true;
-			pointerLockElement.onmousemove = mouseRotate.bind(this);
+			elem.onmousemove = mouseRotate.bind(this);
 		} else {
 			this.mouseLock = false;
-			pointerLockElement.onmousemove = null;
+			elem.onmousemove = null;
 		}
-	}.bind(this));
+	}
 
 	function mouseRotate(e) {
-		this.angle += e.movementX / 360;
+		var amount = e.movementX || e.mozMovementX;
+		console.log(amount);
+		this.angle += amount / 360;
 		if(this.angle > Math.PI*2) {
 			this.angle -= Math.PI*2;
 		} else if(this.angle < 0) {

@@ -7,6 +7,7 @@ var Game = (function() {
 		Game.frameCount = 0;
 		Game.npcs = generateNpcsArray(mapManager.mapLevel);
 		var gameCanvas = document.getElementById("gameCanvas");
+		gameCanvas.requestPointerLock = gameCanvas.requestPointerLock || gameCanvas.mozRequestPointerLock;
 		var rayCaster = RayCaster(gameCanvas, player);
 		var loader = Loader().load(function(src) {
 			console.log(src);
