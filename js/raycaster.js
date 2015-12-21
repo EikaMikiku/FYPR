@@ -135,9 +135,10 @@ var RayCaster = (function() {
 					} else if(spriteRotQuad < 337.5) {
 						spriteRotQuad = 45;
 					}
+					spriteRotQuad += "_";
 				}
 				var angToPlayer = angDiff - player.angle;
-				var imgSrc = "img/sprites/" + npc.spriteName + "/" + npc.action + "/" + spriteRotQuad + "_" + npc.currentSpriteId + ".png";
+				var imgSrc = "img/sprites/" + npc.spriteName + "/" + npc.action + "/" + spriteRotQuad + npc.currentSpriteId + ".png";
 				var img = Loader().res.img[imgSrc];
 				var imgProportion = img.width / img.height;
 				var ySize = Math.round(MAX_WALL_HEIGHT * PLANE_DISTANCE / (Math.cos(angToPlayer) * dist));
