@@ -14,17 +14,45 @@
 		<script type="text/javascript" src="js/loader.js"></script>
 	</head>
 	<body>
-		<div>WASD to move! E to interact!</div>
-		<div>Click on <u>gamescreen</u> for mouse lock! (You can strafe using "A" and "D" in mouse lock)</div>
-		<div id="gameContainer" class="border">
-			<canvas id="gameCanvas" width="600" height="400"></canvas>
+		<div>
+			WASD to move!
+			<br>
+			E to interact!
+			<br>
+			Shift to toggle walk/run!
+			<br>
+			Space to shoot! (Mouse 0 in mouse lock)
 		</div>
-		<div id="minimapContainer" class="border">
-			<canvas id="mapCanvas" width="200" height="200"></canvas>
+		<div>Click on <u>gamescreen</u> for mouse lock! (You can strafe using "A" and "D" in mouse lock)</div>
+		<div id="gameContainer" class="thickBorder">
+			<canvas id="gameCanvas" width="600" height="400"></canvas>
+			<canvas id="mapCanvas" width="600" height="400"></canvas>
+		</div>
+		<div id="statusContainer" class="thickBorder">
+			<div id="headContainer" class="thinBorder">
+				<img id="playerHead" src=""/>
+			</div>
+			<div id="infoContainer" class="thinBorder">
+				<div>
+					<img src="img/hpicon.png">
+					<span id="hpInfo"></span>
+				</div>
+			</div>
+			<div id="weaponContainer" class="thinBorder">
+				*Shotgun image*
+				<br>
+				*Ammo amount*
+			</div>
 		</div>
 		<img id="interactHelp" src="img/interactHelp.png" />
-		<div id="dialogWindowContainer" class="border">
+		<div id="dialogWindowContainer" class="thickBorder">
 			<div id="dialogWindow"></div>
+		</div>
+		<div id="bloodScreen" style="opacity:0;"></div>
+		<div id="gameOverScreen">
+			Game over man
+			<br>
+			game over.
 		</div>
 	</body>
 	<script type="text/javascript">

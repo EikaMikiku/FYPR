@@ -11,7 +11,10 @@ function Npc(obj) {
 	this.roaming = obj.isRoaming;
 	this.attackRange = obj.attackRange;
 	this.viewRange = obj.viewRange;
+	this.missChance = obj.missChance;
+	this.damage = obj.damage;
 	this.hp = obj.hp;
+	this.canAttack = false;
 	this.action = "idle";
 	this.currentSpriteId = 0;
 	this.spriteStartFrame = 0;
@@ -32,13 +35,17 @@ Npc.prototype.updateSprite = function() {
 	if(this.spriteStartFrame + spriteLength <= window.game.frameCount) {
 		//Change sprite
 		this.currentSpriteId++;
-		if(this.currentSpriteId == SPRITES[this.spriteName][this.action].frameCount) {
+		if(this.currentSpriteId === SPRITES[this.spriteName][this.action].frameCount) {
 			this.currentSpriteId = 0;
 		}
 		this.spriteStartFrame = window.game.frameCount;
 	}
 };
 Npc.prototype.move = function() {
+	if(this.hp <= 0) {
+		this.action = "death";
+		return;
+	}
 	if(this.roaming) {
 		this.action = "walk";
 		if(this.reachedRoamTarget) {
@@ -75,12 +82,25 @@ Npc.prototype.move = function() {
 	if(this.attacking) {
 		var diffX = window.game.getPlayer().x - this.x;
 		var diffY = window.game.getPlayer().y - this.y;
+		var dist = Math.sqrt(diffX*diffX + diffY*diffY);
 		this.angle = Math.atan2(diffY, diffX);
-		var cx = Math.cos(this.angle) * this.moveSpeed;
-		var cy = Math.sin(this.angle) * this.moveSpeed;
-		var posInfo = this.collisionPass(cx, cy);
-		this.x = posInfo.x;
-		this.y = posInfo.y;
+		if(dist < this.attackRange) {
+			if(this.action !== "attack") {
+				this.action = "attack";
+				this.currentSpriteId = 0;	
+			}
+			var attackFrame = SPRITES[this.spriteName][this.action].attackFrame;
+			if(this.currentSpriteId+1 == attackFrame.startFrame && window.game.frameCount - this.spriteStartFrame == attackFrame.frameId) {
+				this.attackPlayer();
+			}
+		} else {
+			this.action = "walk";
+			var cx = Math.cos(this.angle) * this.moveSpeed;
+			var cy = Math.sin(this.angle) * this.moveSpeed;
+			var posInfo = this.collisionPass(cx, cy);
+			this.x = posInfo.x;
+			this.y = posInfo.y;
+		}
 		if(!this.isPlayerVisible()) {
 			this.originX = this.x;
 			this.originY = this.y;
@@ -90,15 +110,20 @@ Npc.prototype.move = function() {
 		}
 	}
 };
+Npc.prototype.attackPlayer = function() {
+	if(Math.random() > this.missChance) {
+		window.game.getPlayer().getHit(this);
+	}
+};
 Npc.prototype.isPlayerVisible = function() {
 	var player = window.game.getPlayer();
 	var dist = this.isPointNotBlocked(player.x, player.y);
 	//if player falls into npc view range
 	if(dist && this.viewRange - dist > 0) {
 		//Check if player falls into npc FOV
-		var diffx = this.x - player.x;
-		var diffy = this.y - player.y;
-		var angDiff = Math.atan2(diffy, diffx) - this.angle + window.TWO_PI;
+		var diffX = this.x - player.x;
+		var diffY = this.y - player.y;
+		var angDiff = Math.atan2(diffY, diffX) - this.angle + window.TWO_PI;
 		angDiff %= window.TWO_PI;
 		//Math.PI = looking straight at me
 		//therefore Math.PI -halfFov is edge and +halfFov is another edge
@@ -119,9 +144,9 @@ Npc.prototype.getInteracted = function(interactorAngle) {
 	var sec = date.getSeconds();
 	sec = sec < 10 ? "0"+sec : sec;
 	var min = date.getMinutes();
-	min = min < 10 === 1 ? "0"+min : min;
+	min = min < 10 ? "0"+min : min;
 	var hour = date.getHours();
-	hour = hour < 10 === 1 ? "0"+hour : hour;
+	hour = hour < 10 ? "0"+hour : hour;
 	var dateStr = "["+hour+":"+min+":"+sec+"]"
 	this.say(dateStr + " " + this.npcName + ": " + this.interactiveText[this.interactionId++]);
 	if(this.interactionId === this.interactiveText.length) {
@@ -131,3 +156,10 @@ Npc.prototype.getInteracted = function(interactorAngle) {
 Npc.prototype.say = function(text) {
 	window.game.addToTerminal(text);
 };
+Npc.prototype.takeDamage = function(dmg) {
+	this.hp -= dmg;
+	var diffX = window.game.getPlayer().x - this.x;
+	var diffY = window.game.getPlayer().y - this.y;
+	this.aggressive = true;
+	this.attacking = true;
+}

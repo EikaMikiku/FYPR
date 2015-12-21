@@ -6,15 +6,19 @@ var MapManager = (function() {
 		var mapContext = mapCanvas.getContext("2d");
 		var points = [];
 		var pointSize = 2;
-		var polygonColor = "black";
+		var polygonColor = "gray";
+		mapContext.strokeStyle = "white";
 		var enemyViewSize = 20;
+		var showingMap = false;
+		var playerSize = 3;
 		MapManager.mapLevel = 0; //public
 
 		MapManager.render = function() {
+			if(!showingMap) return;
 			mapContext.setTransform(1, 0, 0, 1, 0, 0);
 			mapContext.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
 			mapContext.translate(mapCanvas.width/2, mapCanvas.height/2);
-			mapContext.rotate(-player.angle - Math.PI/2);
+			//mapContext.rotate(-player.angle - Math.PI/2);
 			mapContext.translate(-player.x, -player.y);
 
 			//Draw current level on map
@@ -42,6 +46,7 @@ var MapManager = (function() {
 			var npcs = window.game.npcs;
 			for(var i = 0; i < npcs.length; i++) {
 				var npc = npcs[i];
+				if(npc.hp <= 0) continue;
 				mapContext.fillStyle = npc.minimapColor;
 				mapContext.beginPath();
 				mapContext.arc(npc.x, npc.y, pointSize, 0, window.TWO_PI);
@@ -55,11 +60,11 @@ var MapManager = (function() {
 					mapContext.arc(npc.x, npc.y, enemyViewSize, npc.angle-halfFov, npc.angle+halfFov, false)
 					mapContext.fill();
 					//show visibility range
-					mapContext.beginPath();
-					mapContext.moveTo(npc.x, npc.y);
-					var halfFov = npc.fov / 2;
-					mapContext.arc(npc.x, npc.y, npc.viewRange, 0, window.TWO_PI, false)
-					mapContext.fill();
+					//mapContext.beginPath();
+					//mapContext.moveTo(npc.x, npc.y);
+					//var halfFov = npc.fov / 2;
+					//mapContext.arc(npc.x, npc.y, npc.viewRange, 0, window.TWO_PI, false)
+					//mapContext.fill();
 					mapContext.globalAlpha = 1;
 					if(npc.roaming) {
 						//line to target
@@ -72,10 +77,11 @@ var MapManager = (function() {
 					}
 				}
 			}
-
+			var cosDir = Math.cos(player.angle)*playerSize;
+			var sinDir = Math.sin(player.angle)*playerSize;
 			mapContext.beginPath();
-			mapContext.moveTo(player.x, player.y);
-			mapContext.lineTo(player.x + Math.cos(player.angle)*200, player.y + Math.sin(player.angle)*200);
+			mapContext.moveTo(player.x - cosDir, player.y - sinDir);
+			mapContext.lineTo(player.x + cosDir, player.y + sinDir);
 			mapContext.stroke();
 		};
 
@@ -93,6 +99,15 @@ var MapManager = (function() {
 					return;
 				}
 			}
+		};
+
+		MapManager.showMap = function() {
+			showingMap = true;
+			mapCanvas.style.zIndex = 101;
+		};
+		MapManager.hideMap = function() {
+			showingMap = false;
+			mapCanvas.style.zIndex = 99;
 		};
 
 		return MapManager;

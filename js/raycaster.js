@@ -82,37 +82,59 @@ var RayCaster = (function() {
 
 			//Render sprites
 			var foundInteractableNpc = false;
+			//Sort by distances, need to render sprites that are further away first
+			//So that sprites before those will paint over them
+			window.game.npcs.sort(function(a, b) {
+				if(!a.dist) {
+					var aDiffX = a.x - player.x;
+					var aDiffY = a.y - player.y;
+					a.dist = Math.sqrt(aDiffX*aDiffX + aDiffY*aDiffY);
+				}
+				if(!b.dist) {
+					var bDiffX = b.x - player.x;
+					var bDiffY = b.y - player.y;
+					b.dist = Math.sqrt(bDiffX*bDiffX + bDiffY*bDiffY);
+				}
+				return b.dist - a.dist;
+			});
 			for(var i = 0; i < window.game.npcs.length; i++) {
 				var npc = window.game.npcs[i];
-				var diffx = npc.x - player.x;
-				var diffy = npc.y - player.y;
-				var dist = Math.sqrt(diffx*diffx + diffy*diffy);
-				if(!npc.aggressive && npc.interactable &&
+				var diffX = npc.x - player.x;
+				var diffY = npc.y - player.y;
+				var dist = npc.dist; //Calculated in the sorting above
+				npc.dist = null; //This will force distance update on the next frame;
+				if(npc.interactable && npc.hp > 0 &&
 					dist < player.interactDistance && player.isNpcVisible(npc)) {
 					player.showInteractAvailable(npc);
 					foundInteractableNpc = true;
 				}
 
-				var angDiff = Math.atan2(diffy, diffx);
-				var spriteRotQuad = angDiff + Math.PI - npc.angle + window.TWO_PI; //atan to 2pi, -possible2pi + 2pi
-				spriteRotQuad = spriteRotQuad > window.TWO_PI ? spriteRotQuad - window.TWO_PI : spriteRotQuad;
-				spriteRotQuad *= 180 / Math.PI; //To degrees
-				if(spriteRotQuad < 22.5 || spriteRotQuad >= 337.5) {
-					spriteRotQuad = 0;
-				} else if(spriteRotQuad < 67.5) {
-					spriteRotQuad = 315;
-				} else if(spriteRotQuad < 112.5) {
-					spriteRotQuad = 270;
-				} else if(spriteRotQuad < 157.5) {
-					spriteRotQuad = 225;
-				} else if(spriteRotQuad < 202.5) {
-					spriteRotQuad = 180;
-				} else if(spriteRotQuad < 247.5) {
-					spriteRotQuad = 135;
-				} else if(spriteRotQuad < 292.5) {
-					spriteRotQuad = 90;
-				} else if(spriteRotQuad < 337.5) {
-					spriteRotQuad = 45;
+				var angDiff = Math.atan2(diffY, diffX);
+				var spriteRotQuad = "";
+				if(npc.hp > 0) {
+					spriteRotQuad = angDiff + Math.PI - npc.angle + window.TWO_PI; //(-pi+pi) + pi - (-pi+pi) + 2pi
+					spriteRotQuad = spriteRotQuad > window.TWO_PI ? spriteRotQuad - window.TWO_PI : spriteRotQuad;
+					spriteRotQuad *= 180 / Math.PI; //To degrees
+					if(spriteRotQuad > 360) { //if npc.angle is neg. then it will add to spriteRotQuad
+						spriteRotQuad -= 360;
+					};
+					if(spriteRotQuad < 22.5 || spriteRotQuad >= 337.5) {
+						spriteRotQuad = 0;
+					} else if(spriteRotQuad < 67.5) {
+						spriteRotQuad = 315;
+					} else if(spriteRotQuad < 112.5) {
+						spriteRotQuad = 270;
+					} else if(spriteRotQuad < 157.5) {
+						spriteRotQuad = 225;
+					} else if(spriteRotQuad < 202.5) {
+						spriteRotQuad = 180;
+					} else if(spriteRotQuad < 247.5) {
+						spriteRotQuad = 135;
+					} else if(spriteRotQuad < 292.5) {
+						spriteRotQuad = 90;
+					} else if(spriteRotQuad < 337.5) {
+						spriteRotQuad = 45;
+					}
 				}
 				var angToPlayer = angDiff - player.angle;
 				var imgSrc = "img/sprites/" + npc.spriteName + "/" + npc.action + "/" + spriteRotQuad + "_" + npc.currentSpriteId + ".png";
@@ -141,10 +163,21 @@ var RayCaster = (function() {
 				}
 			}
 			//Check for interaction
-
 			if(player.showingInteractHelp && !foundInteractableNpc) {
 				player.hideInteractAvailable();
 			}
+
+			//Render weapon
+			var weaponImgSrc = "img/sprites/weapons/" + player.weapon + "/" + player.weaponAction;
+			if(player.weaponAction === "shoot") {
+				weaponImgSrc += "_"+player.currentShootSpriteId+".png";
+			} else {
+				weaponImgSrc += ".png";
+			}
+			var weaponImg = Loader().res.img[weaponImgSrc];
+			var weaponX = gameCanvas.width / 2 - weaponImg.width / 2 + player.weaponSwayX;
+			var weaponY = gameCanvas.height - weaponImg.height + player.weaponSwayY + player.weaponSwayMaxY;
+			gameContext.drawImage(weaponImg, weaponX, weaponY);
 		};
 
 		function updateSky() {

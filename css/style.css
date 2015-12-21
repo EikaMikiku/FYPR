@@ -3,17 +3,47 @@
 	padding: 0px;
 	font-family: consolas;
 }
-.border {
+.thickBorder {
 	padding: 20px;
 	background:
-		url("../img/border/topleftcorner.png"),
-		url("../img/border/toprightcorner.png"),
-		url("../img/border/bottomleftcorner.png"),
-		url("../img/border/bottomrightcorner.png"),
-		url("../img/border/left.png"),
-		url("../img/border/right.png"),
-		url("../img/border/top.png"),
-		url("../img/border/bottom.png");
+		url("../img/border/thick/topleftcorner.png"),
+		url("../img/border/thick/toprightcorner.png"),
+		url("../img/border/thick/bottomleftcorner.png"),
+		url("../img/border/thick/bottomrightcorner.png"),
+		url("../img/border/thick/left.png"),
+		url("../img/border/thick/right.png"),
+		url("../img/border/thick/top.png"),
+		url("../img/border/thick/bottom.png");
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat,
+		no-repeat,
+		repeat-y,
+		repeat-y,
+		repeat-x,
+		repeat-x;
+	background-position:
+		top left,
+		top right,
+		bottom left,
+		bottom right,
+		top left,
+		top right,
+		top left,
+		bottom left;
+}
+.thinBorder {
+	padding: 10px;
+	background:
+		url("../img/border/thin/topleftcorner.png"),
+		url("../img/border/thin/toprightcorner.png"),
+		url("../img/border/thin/bottomleftcorner.png"),
+		url("../img/border/thin/bottomrightcorner.png"),
+		url("../img/border/thin/left.png"),
+		url("../img/border/thin/right.png"),
+		url("../img/border/thin/top.png"),
+		url("../img/border/thin/bottom.png");
 	background-repeat:
 		no-repeat,
 		no-repeat,
@@ -37,24 +67,82 @@
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	margin-left: -300px;
+	margin-left: -320px;
 	margin-top: -100px;
 	z-index: 100;
+	width: 600px;
+	height: 400px;
 }
 #gameCanvas {
 	background-image: url("../img/sky.png");
 	background-repeat: repeat-x;
+	position: absolute;
+	width: 600px;
+	height: 400px;
+	z-index: 100;
 }
-#minimapContainer {
+#statusContainer {
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	margin-left: -300px;
+	margin-left: -320px;
 	margin-top: -340px;
 	z-index: 99;
+	width: 200px;
+	height: 200px;
+}
+#headContainer {
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	margin-left: 20px;
+	margin-top: 20px;
+	z-index: 99;
+	width: 80px;
+	height: 80px;
+	background-color: #90a4ae;
+}
+#playerHead {
+	width: 80px;
+	height: 80px;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+}
+#infoContainer {
+	position: absolute;
+	right: 0%;
+	top: 0%;
+	margin-right: 20px;
+	margin-top: 20px;
+	z-index: 99;
+	width: 80px;
+	height: 80px;
+	background-color: #90a4ae;
+}
+#infoContainer img {
+	margin-left: 3px;
+}
+#hpInfo {
+	text-align: center;
+	font-size: 24px;
+}
+#weaponContainer {
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	margin-left: 20px;
+	margin-top: 120px;
+	z-index: 99;
+	width: 180px;
+	height: 80px;
+	background-color: #90a4ae;
 }
 #mapCanvas {
-	background-color: white;
+	position: absolute;
+	background-color: black;
+	width: 600px;
+	height: 400px;
+	z-index: 99;
 }
 #dialogWindowContainer {
 	width: 360px;
@@ -62,7 +150,7 @@
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	margin-left: -60px;
+	margin-left: -80px;
 	margin-top: -340px;
 	background-color: black;
 }
@@ -123,4 +211,34 @@
 	margin-left: -272px;
 	margin-top: 280px;
 	z-index: 101;
+}
+#bloodScreen {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -80px;
+	z-index: 102;
+	width: 600px;
+	height: 400px;
+	background-image: url("../img/bloodScreen.png");
+	pointer-events: none;
+}
+#gameOverScreen {
+	position: absolute;
+	font-family: "Comic Sans MS";
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -80px;
+	z-index: 102;
+	width: 600px;
+	height: 400px;
+	font-size: 50px;
+	color: white;
+    text-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
+    background: rgba(0,0,0,0.5);
+    text-align: center;
+    line-height: 200px;
+    display: none;
 }
