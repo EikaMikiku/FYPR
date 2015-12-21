@@ -6,6 +6,12 @@ var SPRITES = {
 				Infinity
 			]
 		},
+		"hitstun": {
+			"frameCount": 1,
+			"delays": [
+				6
+			]
+		},
 		"walk": {
 			"frameCount": 4,
 			"delays": [

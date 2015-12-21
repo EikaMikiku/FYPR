@@ -111,7 +111,7 @@ var RayCaster = (function() {
 
 				var angDiff = Math.atan2(diffY, diffX);
 				var spriteRotQuad = "";
-				if(npc.hp > 0) {
+				if(npc.hp > 0 && npc.action !== "hitstun") {
 					spriteRotQuad = angDiff + Math.PI - npc.angle + window.TWO_PI; //(-pi+pi) + pi - (-pi+pi) + 2pi
 					spriteRotQuad = spriteRotQuad > window.TWO_PI ? spriteRotQuad - window.TWO_PI : spriteRotQuad;
 					spriteRotQuad *= 180 / Math.PI; //To degrees

@@ -109,6 +109,7 @@ var Loader = (function() {
 				"img/sprites/marine/death/6.png": null,
 				"img/sprites/marine/death/7.png": null,
 				"img/sprites/marine/death/8.png": null,
+				"img/sprites/marine/hitstun/0.png": null
 			},
 			"sounds": {
 

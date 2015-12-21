@@ -37,6 +37,10 @@ Npc.prototype.updateSprite = function() {
 		this.currentSpriteId++;
 		if(this.currentSpriteId === SPRITES[this.spriteName][this.action].frameCount) {
 			this.currentSpriteId = 0;
+			if(this.action === "hitstun") {
+				this.action = null;
+				this.move(); //decide action
+			}
 		}
 		this.spriteStartFrame = window.game.frameCount;
 	}
@@ -46,7 +50,7 @@ Npc.prototype.move = function() {
 		this.action = "death";
 		return;
 	}
-	if(this.roaming) {
+	if(this.roaming && this.action !== "hitstun") {
 		this.action = "walk";
 		if(this.reachedRoamTarget) {
 			this.reachedRoamTarget = false;
@@ -79,7 +83,7 @@ Npc.prototype.move = function() {
 			this.attacking = true;
 		}
 	}
-	if(this.attacking) {
+	if(this.attacking && this.action !== "hitstun") {
 		var diffX = window.game.getPlayer().x - this.x;
 		var diffY = window.game.getPlayer().y - this.y;
 		var dist = Math.sqrt(diffX*diffX + diffY*diffY);
@@ -158,8 +162,9 @@ Npc.prototype.say = function(text) {
 };
 Npc.prototype.takeDamage = function(dmg) {
 	this.hp -= dmg;
-	var diffX = window.game.getPlayer().x - this.x;
-	var diffY = window.game.getPlayer().y - this.y;
+	this.action = "hitstun";
+	this.currentSpriteId = 0;
+	this.spriteStartFrame = window.game.frameCount;
 	this.aggressive = true;
 	this.attacking = true;
 }
