@@ -45,7 +45,6 @@ var SPRITES = {
 				"startFrame": 1,
 				"frameId": 1
 			},
-			"attackAccuracy": 10 * Math.PI / 180,
 			damageCalculation: function(distance) {
 				return 2000 / distance; //20 at distance = 100
 			}

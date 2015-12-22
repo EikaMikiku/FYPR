@@ -10,6 +10,7 @@ function Player(x, y, angle) {
 	this.interactDistance = 15;
 	this.showingInteractHelp = false;
 	this.interactHelpElem = document.getElementById("interactHelp");
+	this.interactPadding = 200;
 	this.hp = 100;
 	this.hpInfo = document.getElementById("hpInfo");
 	this.hpInfo.textContent = this.hp;
@@ -54,7 +55,7 @@ function Player(x, y, angle) {
 		var allowedDistance = that.interactDistance * that.interactDistance;
 		for(var i = 0; i < npcs.length; i++) {
 			var npc = npcs[i];
-			if(npc.interactable && npc.hp > 0) {
+			if(npc.interactable && npc.hp > 0 && that.isPointingAtNpc(npc)) {
 				var diffX = that.x - npc.x;
 				var diffY = that.y - npc.y;
 				var dist = diffX*diffX + diffY*diffY;
@@ -66,7 +67,7 @@ function Player(x, y, angle) {
 				}
 			}
 		}
-		if(minDistNpc && that.isNpcVisible(minDistNpc)) {
+		if(minDistNpc) {
 			minDistNpc.getInteracted(that.angle);
 		}
 	}
@@ -157,23 +158,6 @@ Player.prototype.move = function() {
 		this.x = newPos.x;
 		this.y = newPos.y;
 	}
-};
-Player.prototype.isNpcVisible = function(npc, optFov) {
-	var fov = optFov || this.fov;
-	var notBlocked = this.isPointNotBlocked(npc.x, npc.y);
-	//if npc falls into range
-	if(notBlocked) {
-		//Check if npc falls into players FOV
-		var diffx = this.x - npc.x;
-		var diffy = this.y - npc.y;
-		var angDiff = Math.atan2(diffy, diffx) - this.angle + window.TWO_PI;
-		angDiff %= window.TWO_PI;
-		//Math.PI = looking straight at me
-		//therefore Math.PI -halfFov is edge and +halfFov is another edge
-		var halfFov = fov / 2;
-		return angDiff > Math.PI-halfFov && angDiff < Math.PI+halfFov;
-	}
-	return false;
 };
 Player.prototype.frameAction = function() {
 	this.move();
@@ -271,7 +255,7 @@ Player.prototype.updateWeaponShootSprite = function() {
 	var spriteLength = SPRITES["weapons"][this.weapon].delays[this.currentShootSpriteId];
 	var attackFrame = SPRITES["weapons"][this.weapon].attackFrame;
 	if(this.currentShootSpriteId+1 == attackFrame.startFrame && window.game.frameCount - this.shootSpriteStartFrame == attackFrame.frameId) {
-		this.attackNpc();
+		this.attemptAttackNpc();
 	}
 	if(this.shootSpriteStartFrame + spriteLength <= window.game.frameCount) {
 		//Change sprite
@@ -283,14 +267,12 @@ Player.prototype.updateWeaponShootSprite = function() {
 		this.shootSpriteStartFrame = window.game.frameCount;
 	}
 }
-Player.prototype.attackNpc = function() {
+Player.prototype.attemptAttackNpc = function() {
 	var validNpcs = [];
 	for(var i = 0; i < window.game.npcs.length; i++) {
 		var npc = window.game.npcs[i];
-		if(this.isNpcVisible(npc, SPRITES["weapons"][this.weapon].attackAccuracy)) {
-			if(npc.hp > 0) {
-				validNpcs.push(npc);
-			}
+		if(npc.hp > 0 && this.isPointingAtNpc(npc) && this.isPointNotBlocked(npc.x, npc.y)) {
+			validNpcs.push(npc);
 		}
 	}
 	var minDistNpc = null;
@@ -307,7 +289,15 @@ Player.prototype.attackNpc = function() {
 	}
 	if(minDistNpc) {
 		var dmg = SPRITES["weapons"][this.weapon].damageCalculation(Math.sqrt(minDist));
-		console.log(dmg);
 		minDistNpc.takeDamage(dmg);
 	}
 };
+Player.prototype.isPointingAtNpc = function(npc) {
+	var canvasXCenter = window.game.getGameCanvas().width / 2;
+	if(npc.renderInfo.xDrawOffset + npc.renderInfo.xDrawWidth > canvasXCenter) {
+		if(npc.renderInfo.xDrawOffset < canvasXCenter) {
+			return true;
+		}
+	}
+	return false;
+}

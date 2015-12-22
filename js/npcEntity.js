@@ -28,6 +28,7 @@ function Npc(obj) {
 	this.interactable = obj.interactable;
 	this.interactiveText = obj.interactiveText;
 	this.interactionId = 0;
+	this.renderInfo = {}; //This is populated from raycaster
 }
 Npc.prototype = new Entity; //Load generic entity functions
 Npc.prototype.updateSprite = function() {

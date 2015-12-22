@@ -2,7 +2,7 @@ var Game = (function() {
 	var instance;
 	function createInstance() {
 		function Game(){};
-		var player = new Player(15, 15, Math.PI/2);
+		var player = new Player(65, 35, -Math.PI/3);
 		//var player = new Player(50, 100, Math.PI/2);
 		var mapManager = MapManager(player);
 		Game.frameCount = 0;
@@ -25,6 +25,9 @@ var Game = (function() {
 			"ctrl": false
 		};
 		Game.terminal = document.getElementById("dialogWindow");
+		Game.getGameCanvas = function() {
+			return gameCanvas;
+		};
 		Game.addToTerminal = function(text) {
 			var span = document.createElement("span");
 			var current = 0;

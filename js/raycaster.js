@@ -103,11 +103,6 @@ var RayCaster = (function() {
 				var diffY = npc.y - player.y;
 				var dist = npc.dist; //Calculated in the sorting above
 				npc.dist = null; //This will force distance update on the next frame;
-				if(npc.interactable && npc.hp > 0 &&
-					dist < player.interactDistance && player.isNpcVisible(npc)) {
-					player.showInteractAvailable(npc);
-					foundInteractableNpc = true;
-				}
 
 				var angDiff = Math.atan2(diffY, diffX);
 				var spriteRotQuad = "";
@@ -150,9 +145,19 @@ var RayCaster = (function() {
 				var yOffset = (gameCanvas.height - ySize) / 2;
 				var zIndexStart = Math.round(xOffset/STRIP_WIDTH);
 				var zIndexEnd = Math.round((xOffset+xSize)/STRIP_WIDTH);
-				
+				npc.renderInfo = {};
 				if(zIndexStart > zIndex.length) continue;
 				if(zIndexEnd < 0) continue;
+				//At this point the sprite will be drawn into the canvas
+				npc.renderInfo.xDrawOffset = xOffset;
+				npc.renderInfo.xDrawWidth = xSize;
+
+				if(npc.interactable && npc.hp > 0 &&
+					dist < player.interactDistance && player.isPointingAtNpc(npc)) {
+					player.showInteractAvailable(npc);
+					foundInteractableNpc = true;
+				}
+				
 				var imgPerSlice = img.width / (zIndexEnd - zIndexStart);
 
 				for(var col = zIndexStart; col < zIndexEnd; col++) {

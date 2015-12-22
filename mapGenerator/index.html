@@ -1,0 +1,146 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<script type="text/javascript" src="../js/polyk.js"></script>
+		<style type="text/css">
+			canvas {
+				background-color: royalblue;
+				border: 1px solid black;
+				cursor: crosshair;
+			}
+			#polygonData {
+				color: black;
+				width: 600px;
+				display: block;
+			    word-break: break-word;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="mapCanvas" width="600" height="400"></canvas>
+		<div>
+			<button onclick="addPolygon()">Add polygon</button>
+		</div>
+		<div>
+			<button onclick="printPolygons()">Print</button>
+		</div>
+		<div id="selectedPointLoc">
+		</div>
+		<pre id="polygonData"></pre>
+	</body>
+	<script type="text/javascript">
+		var mapCanvas = document.getElementById("mapCanvas");
+		var selectedPointLoc = document.getElementById("selectedPointLoc");
+		var polygonData = document.getElementById("polygonData");
+		var mapCtx = mapCanvas.getContext("2d");
+		var polygonColor = "white";
+		var polygons = [
+		];
+		var mouse = {
+			"x": 0,
+			"y": 0
+		};
+		var mouseDown = false;
+		var movingPoint = null;
+		var hightlightPoint = null;
+		var grabDistance = 10;
+
+		start();
+		function start() {
+			mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
+			drawPolygons();
+			if(movingPoint || hightlightPoint) {
+				var p = movingPoint || hightlightPoint;
+				drawPoint(polygons[p.i][p.k], polygons[p.i][p.k+1]);
+			}
+			requestAnimationFrame(start);
+		}
+
+		mapCanvas.onmousemove = function(e) {
+			var box = mapCanvas.getBoundingClientRect();
+			mouse.x = e.clientX - box.left;
+			mouse.y = e.clientY - box.top;
+			hightlightPoint = getClosestPoint();
+			if(movingPoint) {
+				polygons[movingPoint.i][movingPoint.k] = mouse.x;
+				polygons[movingPoint.i][movingPoint.k+1] = mouse.y;
+				selectedPointLoc.textContent = "X:" + mouse.x + ", Y:" + mouse.y;
+			}
+		};
+
+		mapCanvas.onmousedown = function(e) {
+			//Grab point that is close
+			if(e.button !== 0) return;
+			hightlightPoint = getClosestPoint();
+			movingPoint = hightlightPoint;
+		};
+
+		mapCanvas.onmouseup = function() {
+			movingPoint = null;
+		};
+
+		function getClosestPoint() {
+			var minDist = Infinity;
+			var minPoint = null;
+			for(var i = 0; i < polygons.length; i++) {
+				for(var k = 0; k < polygons[i].length; k+=2) {
+					var pointX = polygons[i][k];
+					var pointY = polygons[i][k+1];
+					var dist = getDistanceToMouse(pointX, pointY);
+					if(dist < minDist) {
+						minDist = dist;
+						minPoint = {
+							"i": i,
+							"k": k
+						};
+					}
+				}
+			}
+			if(minDist < grabDistance) {
+				return minPoint;
+			}
+			return null;
+			function getDistanceToMouse(x, y) {
+				var diffX = mouse.x - x;
+				var diffY = mouse.y - y;
+				return Math.sqrt(diffX*diffX + diffY*diffY);
+			}
+		}
+
+		function drawPolygons() {
+			mapCtx.fillStyle = polygonColor;
+			for(var i = 0; i < polygons.length; i++) {
+				mapCtx.beginPath();
+				mapCtx.moveTo(polygons[i][0], polygons[i][1]);
+				for(var k = 2; k < polygons[i].length; k+=2) {
+					mapCtx.lineTo(polygons[i][k], polygons[i][k+1]);
+				}
+				mapCtx.lineTo(polygons[i][0], polygons[i][1]);
+				mapCtx.fill();
+			}
+		}
+
+		function drawPoint(x, y) {
+			mapCtx.fillStyle = "black";
+			mapCtx.beginPath();
+			mapCtx.arc(x, y, 3, 0, Math.PI*2);
+			mapCtx.fill();
+		}
+
+		function addPolygon() {
+			var amount = prompt("Amount of points:");
+			var arr = [];
+			var ang = (amount*2)/(Math.PI*2);
+			for(var i = 0; i < amount*2; i+=2) {
+				arr[i] = mapCanvas.width / 2 + Math.sin(i/ang)*100;
+				arr[i+1] = mapCanvas.height / 2+ Math.cos(i/ang)*100;
+			}
+			polygons.push(arr);
+		}
+
+		function printPolygons() {
+			polygonData.textContent = JSON.stringify(polygons);
+		}
+
+	</script>
+</html>

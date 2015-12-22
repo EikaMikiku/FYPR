@@ -11,7 +11,7 @@ var MapManager = (function() {
 		var enemyViewSize = 20;
 		var showingMap = false;
 		var playerSize = 3;
-		MapManager.mapLevel = 0; //public
+		MapManager.mapLevel = 1; //public
 
 		MapManager.render = function() {
 			if(!showingMap) return;
