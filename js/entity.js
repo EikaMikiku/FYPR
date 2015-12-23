@@ -8,32 +8,35 @@ function Entity(x, y, type, angle, fov) {
 }
 Entity.prototype.frameAction = function() { };
 Entity.prototype.collisionPass = function(cx, cy) {
-	var newX = this.x + cx;
-	var newY = this.y + cy;
-	var xInfo = checkCollision.call(this, cx, 0);
-	if(xInfo) {
-		newX = (xInfo.point.x + xInfo.norm.x * this.COLLISION_MARGIN);
-	}
-	var yInfo = checkCollision.call(this, 0, cy);
-	if(yInfo) {
-		newY = (yInfo.point.y + yInfo.norm.y * this.COLLISION_MARGIN);
-	}
-	return {
-		"x": newX,
-		"y": newY
+	var returnInfo = {
+		"x": this.x + cx,
+		"y": this.y + cy
 	};
 
-	function checkCollision(cx, cy) {
+	var xInfo = closestEdgeInfo(this.COLLISION_MARGIN, this.x + cx, this.y);
+	if(xInfo) {
+		returnInfo.x = xInfo.point.x + xInfo.norm.x * this.COLLISION_MARGIN;
+	}
+	var yInfo = closestEdgeInfo(this.COLLISION_MARGIN, this.x, this.y + cy);
+	if(yInfo) {
+		returnInfo.y = yInfo.point.y + yInfo.norm.y * this.COLLISION_MARGIN;
+	}
+	return returnInfo;
+
+	function closestEdgeInfo(cm, x, y) {
 		var polygons = LEVELS[MapManager().mapLevel].data;
-
+		var minDistInfo = null;
 		for(var i = 0; i < polygons.length; i++) {
-			var collInfo = PolyK.ClosestEdge(polygons[i], this.x + cx, this.y + cy);
-
-			if(collInfo.dist < this.COLLISION_MARGIN) {
-				return collInfo;
+			var info = PolyK.ClosestEdge(polygons[i], x, y);
+			if(info.dist < cm) {
+				if(minDistInfo && info.dist < minDistInfo.dist) {
+					minDistInfo = info;
+				} else {
+					minDistInfo = info;
+				}
 			}
 		}
-		return false;
+		return minDistInfo;
 	}
 };
 Entity.prototype.isPointNotBlocked = function(x, y) {

@@ -2,7 +2,7 @@ var Game = (function() {
 	var instance;
 	function createInstance() {
 		function Game(){};
-		var player = new Player(65, 35, -Math.PI/3);
+		var player = new Player(65, 55, -Math.PI/3);
 		//var player = new Player(50, 100, Math.PI/2);
 		var mapManager = MapManager(player);
 		Game.frameCount = 0;

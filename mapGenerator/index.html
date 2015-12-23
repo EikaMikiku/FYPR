@@ -24,6 +24,9 @@
 		<div>
 			<button onclick="printPolygons()">Print</button>
 		</div>
+		<div>
+			<button onclick="importData()">Import</button>
+		</div>
 		<div id="selectedPointLoc">
 		</div>
 		<pre id="polygonData"></pre>
@@ -40,8 +43,6 @@
 			"x": 0,
 			"y": 0
 		};
-		var mouseDown = false;
-		var movingPoint = null;
 		var hightlightPoint = null;
 		var grabDistance = 10;
 
@@ -49,8 +50,8 @@
 		function start() {
 			mapCtx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
 			drawPolygons();
-			if(movingPoint || hightlightPoint) {
-				var p = movingPoint || hightlightPoint;
+			if(hightlightPoint) {
+				var p = hightlightPoint;
 				drawPoint(polygons[p.i][p.k], polygons[p.i][p.k+1]);
 			}
 			requestAnimationFrame(start);
@@ -61,22 +62,19 @@
 			mouse.x = e.clientX - box.left;
 			mouse.y = e.clientY - box.top;
 			hightlightPoint = getClosestPoint();
-			if(movingPoint) {
-				polygons[movingPoint.i][movingPoint.k] = mouse.x;
-				polygons[movingPoint.i][movingPoint.k+1] = mouse.y;
-				selectedPointLoc.textContent = "X:" + mouse.x + ", Y:" + mouse.y;
-			}
 		};
 
 		mapCanvas.onmousedown = function(e) {
 			//Grab point that is close
 			if(e.button !== 0) return;
-			hightlightPoint = getClosestPoint();
-			movingPoint = hightlightPoint;
-		};
-
-		mapCanvas.onmouseup = function() {
-			movingPoint = null;
+			if(hightlightPoint) {
+				var p = hightlightPoint;
+				var coords = prompt("Coordinates:");
+				coords = coords.split(",");
+				polygons[p.i][p.k] = coords[0];
+				polygons[p.i][p.k+1] = coords[1];
+				printPolygons();
+			}
 		};
 
 		function getClosestPoint() {
@@ -129,6 +127,7 @@
 
 		function addPolygon() {
 			var amount = prompt("Amount of points:");
+			if(!amount) return;
 			var arr = [];
 			var ang = (amount*2)/(Math.PI*2);
 			for(var i = 0; i < amount*2; i+=2) {
@@ -136,10 +135,16 @@
 				arr[i+1] = mapCanvas.height / 2+ Math.cos(i/ang)*100;
 			}
 			polygons.push(arr);
+			printPolygons();
 		}
 
 		function printPolygons() {
-			polygonData.textContent = JSON.stringify(polygons);
+			polygonData.textContent = JSON.stringify(polygons).replace(/\"/g,"");
+		}
+
+		function importData() {
+			var data = prompt("Data:");
+			polygons = JSON.parse(data);
 		}
 
 	</script>
