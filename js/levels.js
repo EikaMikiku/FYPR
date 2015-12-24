@@ -225,25 +225,27 @@ var LEVELS = {
 		],
 		"npcs": [
 			{
-				"npcName": "Marine",
-				"spriteName": "marine",
-				"aggressive": true,
+				"npcName": "Swine",
+				"spriteName": "demon",
+				"aggressive": false,
 				"x": 475,
 				"y": 125,
 				"angle": Math.PI,
 				"isRoaming": false,
-				"attackRange": 50,
+				"attackRange": 10,
 				"viewRange": 90,
-				"damage": 5,
-				"missChance": 0.5,
-				"roamSpeed": 0.18,
-				"moveSpeed": 0.5,
-				"hp": 100,
+				"damage": 15,
+				"missChance": 0,
+				"roamSpeed": 0.5,
+				"moveSpeed": 0.75,
+				"hp": 1000,
 				"roamDist": 30,
-				"minimapColor": "red",
-				"interactable": false,
-				"interactiveText": null,
-				"fov": 160 * Math.PI / 180
+				"minimapColor": "green",
+				"interactable": true,
+				"interactiveText": [
+					"Honk honk!"
+				],
+				"fov": 170 * Math.PI / 180
 			},
 			{
 				"npcName": "Marine",

@@ -35,6 +35,42 @@ var SPRITES = {
 			]
 		}
 	},
+	"demon": {
+		"idle": {
+			"frameCount": 1,
+			"delays": [
+				Infinity
+			]
+		},
+		"hitstun": {
+			"frameCount": 1,
+			"delays": [
+				15
+			]
+		},
+		"walk": {
+			"frameCount": 4,
+			"delays": [
+				5, 5, 5, 5
+			]
+		},
+		"attack": {
+			"frameCount": 3,
+			"delays": [
+				5, 5, 20
+			],
+			"attackFrame": {
+				"startFrame": 3,
+				"frameId": 1
+			}
+		},
+		"death": {
+			"frameCount": 6,
+			"delays": [
+				6, 6, 6, 6, 6, Infinity
+			]
+		}
+	},
 	"weapons": {
 		"shotgun": {
 			"frameCount": 7,
