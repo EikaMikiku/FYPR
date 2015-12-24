@@ -1,11 +1,8 @@
-function Loader() {
-
-}
 var Loader = (function() {
 	var instance;
 	function createInstance() {
 		function Loader(){};
-		var resourceCount = 97;
+		var resourceCount = 66+22+17+8;
 		var currentlyLoaded = 0;
 		Loader.res = {
 			"img": {
@@ -20,6 +17,21 @@ var Loader = (function() {
 
 				"img/wallTextures/lev0wall0.png": null,
 				"img/wallTextures/lev0wall1.png": null,
+				"img/wallTextures/lev0wall2.png": null,
+				"img/wallTextures/lev0wall3.png": null,
+				"img/wallTextures/lev0wall4.png": null,
+				"img/wallTextures/lev0wall5.png": null,
+				"img/wallTextures/lev0wall6.png": null,
+				"img/wallTextures/lev0wall7.png": null,
+				"img/wallTextures/lev0wall8.png": null,
+				"img/wallTextures/lev0wall9.png": null,
+				"img/wallTextures/lev0wall10.png": null,
+				"img/wallTextures/lev0wall11.png": null,
+				"img/wallTextures/lev0wall12.png": null,
+				"img/wallTextures/lev0wall13.png": null,
+				"img/wallTextures/lev0wall14.png": null,
+				"img/wallTextures/lev0wall15.png": null,
+				"img/wallTextures/lev0wall16.png": null,
 
 				"img/sprites/player/none/idle.gif": null,
 				"img/sprites/player/none/pickup.png": null,

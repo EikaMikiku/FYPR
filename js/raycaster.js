@@ -84,19 +84,26 @@ var RayCaster = (function() {
 			var foundInteractableNpc = false;
 			//Sort by distances, need to render sprites that are further away first
 			//So that sprites before those will paint over them
-			window.game.npcs.sort(function(a, b) {
-				if(!a.dist) {
-					var aDiffX = a.x - player.x;
-					var aDiffY = a.y - player.y;
-					a.dist = Math.sqrt(aDiffX*aDiffX + aDiffY*aDiffY);
-				}
-				if(!b.dist) {
-					var bDiffX = b.x - player.x;
-					var bDiffY = b.y - player.y;
-					b.dist = Math.sqrt(bDiffX*bDiffX + bDiffY*bDiffY);
-				}
-				return b.dist - a.dist;
-			});
+			if(window.game.npcs.length === 1) {
+				var npc = window.game.npcs[0];
+				var diffX = npc.x - player.x;
+				var diffY = npc.y - player.y;
+				npc.dist = Math.sqrt(diffX*diffX + diffY*diffY);
+			} else {
+				window.game.npcs.sort(function(a, b) {
+					if(!a.dist) {
+						var aDiffX = a.x - player.x;
+						var aDiffY = a.y - player.y;
+						a.dist = Math.sqrt(aDiffX*aDiffX + aDiffY*aDiffY);
+					}
+					if(!b.dist) {
+						var bDiffX = b.x - player.x;
+						var bDiffY = b.y - player.y;
+						b.dist = Math.sqrt(bDiffX*bDiffX + bDiffY*bDiffY);
+					}
+					return b.dist - a.dist;
+				});
+			}
 			for(var i = 0; i < window.game.npcs.length; i++) {
 				var npc = window.game.npcs[i];
 				var diffX = npc.x - player.x;
@@ -159,7 +166,6 @@ var RayCaster = (function() {
 				}
 				
 				var imgPerSlice = img.width / (zIndexEnd - zIndexStart);
-
 				for(var col = zIndexStart; col < zIndexEnd; col++) {
 					if(zIndex[col] > ySize) continue;
 					var screenPos = col * STRIP_WIDTH;

@@ -18,8 +18,14 @@ var MapManager = (function() {
 			mapContext.setTransform(1, 0, 0, 1, 0, 0);
 			mapContext.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
 			mapContext.translate(mapCanvas.width/2, mapCanvas.height/2);
-			//mapContext.rotate(-player.angle - Math.PI/2);
+			mapContext.rotate(-player.angle - Math.PI/2);
 			mapContext.translate(-player.x, -player.y);
+			var cosDir = Math.cos(player.angle)*playerSize;
+			var sinDir = Math.sin(player.angle)*playerSize;
+			mapContext.beginPath();
+			mapContext.moveTo(player.x - cosDir, player.y - sinDir);
+			mapContext.lineTo(player.x + cosDir, player.y + sinDir);
+			mapContext.stroke();
 
 			//Draw current level on map
 			var polygons = LEVELS[MapManager.mapLevel].data;
@@ -66,7 +72,7 @@ var MapManager = (function() {
 					//mapContext.arc(npc.x, npc.y, npc.viewRange, 0, window.TWO_PI, false)
 					//mapContext.fill();
 					mapContext.globalAlpha = 1;
-					if(npc.roaming) {
+					if(npc.roaming && npc.currentRoamTarget) {
 						//line to target
 						mapContext.setLineDash([2,2]);
 						mapContext.beginPath();
@@ -77,12 +83,6 @@ var MapManager = (function() {
 					}
 				}
 			}
-			var cosDir = Math.cos(player.angle)*playerSize;
-			var sinDir = Math.sin(player.angle)*playerSize;
-			mapContext.beginPath();
-			mapContext.moveTo(player.x - cosDir, player.y - sinDir);
-			mapContext.lineTo(player.x + cosDir, player.y + sinDir);
-			mapContext.stroke();
 		};
 
 		MapManager.addPoint = function(x, y, color) {

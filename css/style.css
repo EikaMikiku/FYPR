@@ -74,7 +74,9 @@
 	height: 400px;
 }
 #gameCanvas {
-	background-image: url("../img/sky.png");
+	background-image:
+		url("../img/sky.png"),
+		linear-gradient(to bottom,  #000000 55%,#777 100%);
 	background-repeat: repeat-x;
 	position: absolute;
 	width: 600px;

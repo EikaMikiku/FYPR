@@ -2,7 +2,7 @@ var Game = (function() {
 	var instance;
 	function createInstance() {
 		function Game(){};
-		var player = new Player(65, 55, -Math.PI/3);
+		var player = new Player(455, 65, Math.PI/2);
 		//var player = new Player(50, 100, Math.PI/2);
 		var mapManager = MapManager(player);
 		Game.frameCount = 0;
@@ -15,6 +15,7 @@ var Game = (function() {
 		var loader = Loader().load(function(src) {
 			console.log(src);
 		}, function() {
+			Game.addToTerminal("What a horrible night to live...");
 			Game.engineLoop();
 		});
 		var keyStates = {

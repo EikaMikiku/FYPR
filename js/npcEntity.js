@@ -83,6 +83,11 @@ Npc.prototype.move = function() {
 			this.roaming = false;
 			this.attacking = true;
 		}
+	} else if(this.aggressive && !this.attacking) {
+		if(this.isPlayerVisible(window.game.getPlayer().x, window.game.getPlayer().y)) {
+			this.roaming = false;
+			this.attacking = true;
+		}
 	}
 	if(this.attacking && this.action !== "hitstun") {
 		var diffX = window.game.getPlayer().x - this.x;
