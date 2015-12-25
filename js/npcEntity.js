@@ -26,7 +26,7 @@ function Npc(obj) {
 	this.minimapColor = obj.minimapColor;
 	this.attacking = false;
 	this.interactable = obj.interactable;
-	this.interactiveText = obj.interactiveText;
+	this.interactions = obj.interactions;
 	this.interactionId = 0;
 	this.renderInfo = {}; //This is populated from raycaster
 }
@@ -79,14 +79,16 @@ Npc.prototype.move = function() {
 		if(diffX*diffX + diffY*diffY < this.roamTargetMargin) {
 			this.reachedRoamTarget = true;
 		}
-		if(this.isPlayerVisible(window.game.getPlayer().x, window.game.getPlayer().y)) {
+		if(this.aggressive && this.isPlayerVisible(window.game.getPlayer().x, window.game.getPlayer().y)) {
 			this.roaming = false;
 			this.attacking = true;
+			this.currentSpriteId = 0;
 		}
 	} else if(this.aggressive && !this.attacking) {
 		if(this.isPlayerVisible(window.game.getPlayer().x, window.game.getPlayer().y)) {
 			this.roaming = false;
 			this.attacking = true;
+			this.currentSpriteId = 0;
 		}
 	}
 	if(this.attacking && this.action !== "hitstun") {
@@ -104,7 +106,10 @@ Npc.prototype.move = function() {
 				this.attackPlayer();
 			}
 		} else {
-			this.action = "walk";
+			if(this.action !== "walk") {
+				this.action = "walk";
+				this.currentSpriteId = 0;
+			}
 			var cx = Math.cos(this.angle) * this.moveSpeed;
 			var cy = Math.sin(this.angle) * this.moveSpeed;
 			var posInfo = this.collisionPass(cx, cy);
@@ -149,7 +154,9 @@ Npc.prototype.frameAction = function() {
 Npc.prototype.getInteracted = function(interactorAngle) {
 	this.angle = interactorAngle + Math.PI;
 	this.angle %= window.TWO_PI;
-
+	this.interaction();
+};
+Npc.prototype.say = function(text) {
 	var date = new Date();
 	var sec = date.getSeconds();
 	sec = sec < 10 ? "0"+sec : sec;
@@ -157,14 +164,16 @@ Npc.prototype.getInteracted = function(interactorAngle) {
 	min = min < 10 ? "0"+min : min;
 	var hour = date.getHours();
 	hour = hour < 10 ? "0"+hour : hour;
-	var dateStr = "["+hour+":"+min+":"+sec+"]"
-	this.say(dateStr + " " + this.npcName + ": " + this.interactiveText[this.interactionId++]);
-	if(this.interactionId === this.interactiveText.length) {
-		this.interactionId = 0;
-	}
+	var dateStr = "["+hour+":"+min+":"+sec+"]";
+	window.game.addToTerminal(dateStr + " " + this.npcName + ": " + text);
 };
-Npc.prototype.say = function(text) {
-	window.game.addToTerminal(text);
+Npc.prototype.interaction = function() {
+	var interaction = this.interactions[this.interactionId];
+	interaction(this);
+	this.interactionId++;
+	if(this.interactionId === this.interactions.length) {
+		this.interactable = false;
+	}
 };
 Npc.prototype.takeDamage = function(dmg) {
 	this.hp -= dmg;

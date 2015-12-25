@@ -192,7 +192,7 @@ Player.prototype.getHit = function(npc) {
 	this.hpInfo.textContent = this.hp;
 	this.bloodScreen.style.opacity = parseFloat(this.bloodScreen.style.opacity) + npc.damage / 20;
 	var newHeadAction = "attacked";
-	if(npc.damage > 20 || this.hp < 30) {
+	if(npc.damage >= 20 || this.hp < 30) {
 		newHeadAction = "surprised";
 	}
 	this.headAction = newHeadAction;

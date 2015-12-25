@@ -29,11 +29,16 @@ var Game = (function() {
 		Game.getGameCanvas = function() {
 			return gameCanvas;
 		};
-		Game.addToTerminal = function(text) {
-			var span = document.createElement("span");
+		Game.addToTerminal = function(text, timerTime, appendToLast) {
+			var span = null;
 			var current = 0;
-			span.className = "dialogSpan";
-			Game.terminal.appendChild(span);
+			if(appendToLast) {
+				span = Game.terminal.lastChild;
+			} else {
+				span = document.createElement("span");
+				span.className = "dialogSpan";
+				Game.terminal.appendChild(span);
+			}
 			var timer = setInterval(function() {
 				span.textContent += text[current];
 				current++;
@@ -41,7 +46,7 @@ var Game = (function() {
 					clearInterval(timer);
 				}
 				Game.terminal.scrollTop = Game.terminal.scrollHeight;
-			}, 10);
+			}, timerTime || 10);
 		};
 		Game.engineLoop = function() {
 			if(gameOver) return;

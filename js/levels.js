@@ -1,144 +1,5 @@
 var LEVELS = {
-	"0": 
-	{
-		"name": "Super duper start",
-		"data": 
-		[
-			[
-				-1000, -1000, //outer
-				1000, 0,
-				1000, 1000,
-				-1000, 1000,
-				-1000, -1000,
-				10, 10,
-				
-				10, 40,
-				30, 40,
-				40, 50,
-				50, 50,
-				60, 40,
-				80, 60,
-				80, 70,
-				60, 50,
-				50, 60,
-				10, 60,
-				
-				10, 170,
-				90, 170,
-				90, 100,
-				100, 100,
-				100, 180,
-				10, 180,
-				
-				10, 290, //outer
-				390, 290,
-				390, 10,
-				
-				160, 10,
-				160, 90,
-				20, 90,
-				20, 70,
-				60, 70,
-				70, 80,
-				110, 80,
-				120, 70,
-				150, 70,
-				150, 10,
-				
-				80, 10,
-				60, 30,
-				50, 20,
-				40, 20,
-				30, 30,
-				20, 30, 	
-				20, 10,
-				
-				0, 10 //outer
-			],
-			[
-				100, 60,
-				120, 40,
-				130, 40,
-				130, 20,
-				140, 20,
-				140, 60,
-				110, 60,
-				100, 70
-			]
-		],
-		"textures": //1 per polygon
-		[
-			"img/wallTextures/lev0wall0.png",
-			"img/wallTextures/lev0wall1.png"
-		],
-		"npcs": [
-			{
-				"npcName": "Marine",
-				"spriteName": "marine",
-				"aggressive": true,
-				"x": 180,
-				"y": 130,
-				"angle": 0,
-				"isRoaming": true,
-				"attackRange": 50,
-				"viewRange": 90,
-				"damage": 5,
-				"missChance": 0.5,
-				"roamSpeed": 0.18,
-				"moveSpeed": 0.5,
-				"hp": 100,
-				"roamDist": 30,
-				"minimapColor": "red",
-				"interactable": false,
-				"interactiveText": null,
-				"fov": 160 * Math.PI / 180
-			},
-			{
-				"npcName": "Marine",
-				"spriteName": "marine",
-				"aggressive": false,
-				"x": 90,
-				"y": 15,
-				"angle": Math.PI/2,
-				"isRoaming": false,
-				"attackRange": 50,
-				"viewRange": 90,
-				"damage": 25,
-				"missChance": 0.5,
-				"roamSpeed": 0.18,
-				"moveSpeed": 0.5,
-				"hp": 100,
-				"roamDist": 30,
-				"minimapColor": "blue",
-				"interactable": true,
-				"interactiveText": [
-					"What the fuck did you just fucking say about me, you little bitch?",
-					"I'll have you know I graduated top of my class in the Navy Seals.",
-					"I've been involved in numerous secret raids on Al-Quaeda.",
-					"I have over 300 confirmed kills.",
-					"I am trained in gorilla warfare.",
-					"I'm the top sniper in the entire US armed forces.",
-					"You are nothing to me but just another target.",
-					"I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth.",
-					"Mark my fucking words. You think you can get away with saying that shit to me over the Internet?",
-					"Think again, fucker. As we speak I am contacting my secret network of spies across the USA.",
-					"Your IP is being traced right now so you better prepare for the storm, maggot.",
-					"The storm that wipes out the pathetic little thing you call your life.",
-					"You're fucking dead, kid. I can be anywhere, anytime.",
-					"I can kill you in over seven hundred ways, and that's just with my bare hands.",
-					"Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the US Marine Corps.",
-					"I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit.",
-					"If only you could have known what unholy retribution your little \"clever\" comment was about to bring down upon you.",
-					"Maybe you would have held your fucking tongue. But you couldn't, you didn't.",
-					"And now you're paying the price, you goddamn idiot.",
-					"I will shit fury all over you and you will drown in it. You're fucking dead, kiddo.",
-					"Wau, good job reading(?) all of it, again."
-				],
-				"fov": 160 * Math.PI / 180
-			}
-		]
-	},
-	"1": {
+	"0": {
 		"name": "maptest",
 		"data": [
 			//Red
@@ -225,11 +86,69 @@ var LEVELS = {
 		],
 		"npcs": [
 			{
+				"npcName": "San",
+				"spriteName": "san",
+				"aggressive": false,
+				"x": 465,
+				"y": 55,
+				"angle": Math.PI,
+				"isRoaming": false,
+				"attackRange": 20,
+				"viewRange": 70,
+				"damage": 20,
+				"missChance": 0.1,
+				"roamSpeed": 0.12,
+				"moveSpeed": 0.3,
+				"hp": 1000,
+				"roamDist": 20,
+				"minimapColor": "red",
+				"interactable": true,
+				"interactions": [
+					function(npc) {
+						npc.say("It's a beautiful day outside.");
+					},
+					function(npc) {
+						npc.say("Birds are singing. Flowers are blooming...");
+					},
+					function(npc) {
+						npc.say("On days like these... Meme lovers like you... ");
+						setTimeout(function() {
+							window.game.addToTerminal("Should be burning in hell...", 100, true);
+							setTimeout(function() {
+								npc.aggressive = true;
+							}, 3600);
+						}, 1500);
+					}
+				],
+				"fov": 160 * Math.PI / 180
+			},
+			{
+				"npcName": "Commando",
+				"spriteName": "commando",
+				"aggressive": true,
+				"x": 475,
+				"y": 125,
+				"angle": Math.PI,
+				"isRoaming": true,
+				"attackRange": 40,
+				"viewRange": 70,
+				"damage": 2,
+				"missChance": 0.1,
+				"roamSpeed": 0.12,
+				"moveSpeed": 0.3,
+				"hp": 400,
+				"roamDist": 20,
+				"minimapColor": "red",
+				"interactable": false,
+				"interactions": null,
+				"fov": 160 * Math.PI / 180
+			},
+			{
 				"npcName": "Swine",
 				"spriteName": "demon",
 				"aggressive": false,
-				"x": 475,
-				"y": 125,
+				"x": 540,
+				"y": 110,
 				"angle": Math.PI,
 				"isRoaming": false,
 				"attackRange": 10,
@@ -242,31 +161,10 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "green",
 				"interactable": true,
-				"interactiveText": [
+				"interactions": [
 					"Honk honk!"
 				],
 				"fov": 170 * Math.PI / 180
-			},
-			{
-				"npcName": "Marine",
-				"spriteName": "marine",
-				"aggressive": true,
-				"x": 540,
-				"y": 110,
-				"angle": Math.PI,
-				"isRoaming": true,
-				"attackRange": 50,
-				"viewRange": 90,
-				"damage": 5,
-				"missChance": 0.5,
-				"roamSpeed": 0.18,
-				"moveSpeed": 0.5,
-				"hp": 100,
-				"roamDist": 30,
-				"minimapColor": "red",
-				"interactable": false,
-				"interactiveText": null,
-				"fov": 160 * Math.PI / 180
 			},
 			{
 				"npcName": "Marine",
@@ -286,7 +184,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -307,7 +205,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -328,7 +226,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -349,7 +247,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -370,7 +268,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -391,7 +289,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -412,7 +310,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -433,7 +331,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -454,7 +352,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -475,7 +373,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -496,7 +394,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -517,7 +415,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -538,7 +436,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -559,7 +457,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -580,7 +478,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -601,7 +499,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -622,7 +520,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -643,7 +541,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -664,7 +562,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -685,7 +583,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -706,7 +604,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -727,7 +625,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -748,7 +646,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -769,7 +667,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			},
 			{
@@ -790,7 +688,7 @@ var LEVELS = {
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
-				"interactiveText": null,
+				"interactions": null,
 				"fov": 160 * Math.PI / 180
 			}
 		]
