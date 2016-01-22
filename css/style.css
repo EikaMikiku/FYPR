@@ -244,3 +244,37 @@
     line-height: 200px;
     display: none;
 }
+/*Loader*/
+#loaderScreen {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -320px;
+	margin-top: -340px;
+	background-color: black;
+    text-align: center;
+	z-index: 102;
+	width: 640px;
+	transition: opacity 1s;
+	pointer-events: none;
+	height: 680px;
+}
+#loaderScreen #loaderText {
+	color: white;
+    text-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
+    line-height: 680px;
+}
+#loaderScreen #loaderBar {
+	position: absolute;
+	height: 30px;
+	width: 80%;
+	top: 55%;
+	left: 10%;
+	right: 10%;
+	background-color: white;
+}
+#loaderLoadedBar {
+	width: 0%;
+	height: 100%;
+	background-color: red;
+}

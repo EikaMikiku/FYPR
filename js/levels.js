@@ -160,10 +160,8 @@ var LEVELS = {
 				"hp": 1000,
 				"roamDist": 30,
 				"minimapColor": "green",
-				"interactable": true,
-				"interactions": [
-					"Honk honk!"
-				],
+				"interactable": false,
+				"interactions": null,
 				"fov": 170 * Math.PI / 180
 			},
 			{

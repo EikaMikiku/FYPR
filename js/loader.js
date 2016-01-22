@@ -2,8 +2,6 @@ var Loader = (function() {
 	var instance;
 	function createInstance() {
 		function Loader(){};
-		var resourceCount = 66+22+17+8+71+64+29;
-		var currentlyLoaded = 0;
 		Loader.res = {
 			"img": {
 				"img/sprites/weapons/shotgun/idle.png": null,
@@ -14,7 +12,6 @@ var Loader = (function() {
 				"img/sprites/weapons/shotgun/shoot_4.png": null,
 				"img/sprites/weapons/shotgun/shoot_5.png": null,
 				"img/sprites/weapons/shotgun/shoot_6.png": null,
-
 				"img/wallTextures/lev0wall0.png": null,
 				"img/wallTextures/lev0wall1.png": null,
 				"img/wallTextures/lev0wall2.png": null,
@@ -32,7 +29,6 @@ var Loader = (function() {
 				"img/wallTextures/lev0wall14.png": null,
 				"img/wallTextures/lev0wall15.png": null,
 				"img/wallTextures/lev0wall16.png": null,
-
 				"img/sprites/player/none/idle.gif": null,
 				"img/sprites/player/none/pickup.png": null,
 				"img/sprites/player/none/attacked.png": null,
@@ -55,7 +51,6 @@ var Loader = (function() {
 				"img/sprites/player/extreme/omg.png": null,
 				"img/sprites/player/dead.png": null,
 				"img/sprites/player/god.png": null,
-
 				"img/sprites/marine/idle/0_0.png": null,
 				"img/sprites/marine/idle/45_0.png": null,
 				"img/sprites/marine/idle/90_0.png": null,
@@ -122,7 +117,6 @@ var Loader = (function() {
 				"img/sprites/marine/death/7.png": null,
 				"img/sprites/marine/death/8.png": null,
 				"img/sprites/marine/hitstun/0.png": null,
-
 				"img/sprites/demon/idle/0_0.png": null,
 				"img/sprites/demon/idle/45_0.png": null,
 				"img/sprites/demon/idle/90_0.png": null,
@@ -194,7 +188,6 @@ var Loader = (function() {
 				"img/sprites/demon/death/4.png": null,
 				"img/sprites/demon/death/5.png": null,
 				"img/sprites/demon/hitstun/0.png": null,
-
 				"img/sprites/commando/idle/0_0.png": null,
 				"img/sprites/commando/idle/45_0.png": null,
 				"img/sprites/commando/idle/90_0.png": null,
@@ -259,7 +252,6 @@ var Loader = (function() {
 				"img/sprites/commando/death/5.png": null,
 				"img/sprites/commando/death/6.png": null,
 				"img/sprites/commando/hitstun/0.png": null,
-
 				"img/sprites/san/idle/0.png": null,
 				"img/sprites/san/idle/1.png": null,
 				"img/sprites/san/idle/2.png": null,
@@ -294,7 +286,14 @@ var Loader = (function() {
 
 			}
 		};
-		
+
+		var currentlyLoaded = 0;
+		var loaderScreen = document.getElementById("loaderScreen");
+		var loaderLoadedBar = document.getElementById("loaderLoadedBar");
+		var loaderText = document.getElementById("loaderText");
+		var resourceCount = Object.keys(Loader.res.img).length;
+		resourceCount += Object.keys(Loader.res.sounds).length;
+
 		Loader.load = function(done1cb, doneAllcb) {
 			for(src in Loader.res.img) {
 				var newImg = new Image();
@@ -312,7 +311,10 @@ var Loader = (function() {
 		function finishedLoadingResource(src, oneCb, allCb) {
 			currentlyLoaded++;
 			oneCb(src);
+			loaderText.textContent = src;
+			loaderLoadedBar.style.width = (100 * currentlyLoaded / resourceCount) + "%";
 			if(currentlyLoaded === resourceCount) {
+				loaderScreen.style.opacity = 0;
 				allCb();
 			}
 		}
