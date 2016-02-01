@@ -121,12 +121,22 @@
 	height: 80px;
 	background-color: #90a4ae;
 }
-#infoContainer img {
-	margin-left: 3px;
+#infoContainer > div {
+	height: 20px;
+	float: left;
 }
-#hpInfo {
+#infoContainer img {
+	display: block;
+	float: left;
+	max-height: 20px;
+}
+#infoContainer span {
+	display: block;
+	float: right;
 	text-align: center;
 	font-size: 24px;
+	height: 20px;
+	width: 100%;
 }
 #weaponContainer {
 	position: absolute;
@@ -138,6 +148,16 @@
 	width: 180px;
 	height: 80px;
 	background-color: #90a4ae;
+}
+#weaponContainer img {
+	zoom: 2;
+    image-rendering: pixelated;
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 #mapCanvas {
 	position: absolute;

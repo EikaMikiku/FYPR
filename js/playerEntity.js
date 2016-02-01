@@ -19,7 +19,7 @@ function Player(x, y, angle) {
 	this.headAction = "idle";
 	this.prevHeadAction = null;
 	this.attackedTimer = null;
-	this.weapon = "shotgun";
+	this.weapon = "shotgun1";
 	this.weaponAction = "idle";
 	this.currentShootSpriteId = 0;
 	this.shootSpriteStartFrame = 0;
@@ -30,6 +30,7 @@ function Player(x, y, angle) {
 	this.moving = false;
 	this.mouse0Down = false;
 	this.swayDelta = 0;
+	this.weaponChanging = false;
 	var pointerLockElement = null;
 
 	document.addEventListener("pointerlockchange", onPointerLockChange.bind(this));
@@ -163,7 +164,7 @@ Player.prototype.frameAction = function() {
 	this.move();
 	this.decreaseBloodScreen();
 	this.updateHead();
-	if(this.mouse0Down) {
+	if(this.mouse0Down && !this.weaponChanging) {
 		this.shoot();
 	}
 	if(this.weaponAction === "idle") {
@@ -234,7 +235,7 @@ Player.prototype.updateHead = function() {
 	}
 };
 Player.prototype.updateWeaponSway = function() {
-	if(this.moving) {
+	if(this.moving && !this.weaponChanging) {
 		this.weaponSwayY = this.weaponSwayMaxY * Math.sin(this.swayDelta / this.weaponSwayMaxY);
 		this.weaponSwayX = this.weaponSwayMaxX * Math.sin(this.swayDelta / this.weaponSwayMaxX);
 		this.swayDelta++;
@@ -300,4 +301,23 @@ Player.prototype.isPointingAtNpc = function(npc) {
 		}
 	}
 	return false;
+};
+Player.prototype.changeWeapon = function(weapon) {
+	if(this.weaponAction === "idle") {
+		if(weapon === "shotgun") {
+			if(this.weapon === "shotgun1") {
+				this.weapon = "shotgun2";
+			} else {
+				this.weapon = "shotgun1";
+			}
+		} else {
+			this.weapon = weapon;
+		}
+		this.weaponSwayY += 150;
+		this.weaponChanging = true;
+		setTimeout(function(){
+			this.weaponChanging = false;
+			this.swayDelta = 0;
+		}.bind(this), 500)
+	}
 }

@@ -164,7 +164,20 @@ var SPRITES = {
 		}
 	},
 	"weapons": {
-		"shotgun": {
+		"shotgun1": {
+			"frameCount": 7,
+			"delays": [
+				3, 3, 8, 8, 8, 10, 6
+			],
+			"attackFrame": {
+				"startFrame": 1,
+				"frameId": 1
+			},
+			damageCalculation: function(distance) {
+				return 2000 / distance; //20 at distance = 100
+			}
+		},
+		"shotgun2": {
 			"frameCount": 7,
 			"delays": [
 				3, 3, 8, 8, 8, 10, 6

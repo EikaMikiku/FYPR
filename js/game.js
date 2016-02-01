@@ -25,6 +25,7 @@ var Game = (function() {
 			"d": false,
 			"ctrl": false
 		};
+		var weapons = ["chainsaw", "pistol", "shotgun", "machinegun", "rocketlauncher"];
 		Game.terminal = document.getElementById("dialogWindow");
 		Game.getGameCanvas = function() {
 			return gameCanvas;
@@ -99,6 +100,9 @@ var Game = (function() {
 			} else if(e.keyCode === 32) {
 				e.preventDefault();
 				player.shoot();
+			} else if(e.keyCode > 48 && e.keyCode < 54) {
+				//50 => 2; 51 => 3; 52 => 4; 53 => 5;
+				player.changeWeapon(weapons[e.keyCode-49]);
 			}
 		});
 		document.addEventListener("keyup", function(e) {

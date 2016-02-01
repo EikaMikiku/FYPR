@@ -4,14 +4,26 @@ var Loader = (function() {
 		function Loader(){};
 		Loader.res = {
 			"img": {
-				"img/sprites/weapons/shotgun/idle.png": null,
-				"img/sprites/weapons/shotgun/shoot_0.png": null,
-				"img/sprites/weapons/shotgun/shoot_1.png": null,
-				"img/sprites/weapons/shotgun/shoot_2.png": null,
-				"img/sprites/weapons/shotgun/shoot_3.png": null,
-				"img/sprites/weapons/shotgun/shoot_4.png": null,
-				"img/sprites/weapons/shotgun/shoot_5.png": null,
-				"img/sprites/weapons/shotgun/shoot_6.png": null,
+				"img/sprites/weapons/shotgun1/idle.png": null,
+				"img/sprites/weapons/shotgun1/shoot_0.png": null,
+				"img/sprites/weapons/shotgun1/shoot_1.png": null,
+				"img/sprites/weapons/shotgun1/shoot_2.png": null,
+				"img/sprites/weapons/shotgun1/shoot_3.png": null,
+				"img/sprites/weapons/shotgun1/shoot_4.png": null,
+				"img/sprites/weapons/shotgun1/shoot_5.png": null,
+				"img/sprites/weapons/shotgun1/shoot_6.png": null,
+				"img/sprites/weapons/shotgun1/small.png": null,
+
+				"img/sprites/weapons/shotgun2/idle.png": null,
+				"img/sprites/weapons/shotgun2/shoot_0.png": null,
+				"img/sprites/weapons/shotgun2/shoot_1.png": null,
+				"img/sprites/weapons/shotgun2/shoot_2.png": null,
+				"img/sprites/weapons/shotgun2/shoot_3.png": null,
+				"img/sprites/weapons/shotgun2/shoot_4.png": null,
+				"img/sprites/weapons/shotgun2/shoot_5.png": null,
+				"img/sprites/weapons/shotgun2/shoot_6.png": null,
+				"img/sprites/weapons/shotgun2/small.png": null,
+
 				"img/wallTextures/lev0wall0.png": null,
 				"img/wallTextures/lev0wall1.png": null,
 				"img/wallTextures/lev0wall2.png": null,
@@ -29,6 +41,7 @@ var Loader = (function() {
 				"img/wallTextures/lev0wall14.png": null,
 				"img/wallTextures/lev0wall15.png": null,
 				"img/wallTextures/lev0wall16.png": null,
+
 				"img/sprites/player/none/idle.gif": null,
 				"img/sprites/player/none/pickup.png": null,
 				"img/sprites/player/none/attacked.png": null,
@@ -51,6 +64,7 @@ var Loader = (function() {
 				"img/sprites/player/extreme/omg.png": null,
 				"img/sprites/player/dead.png": null,
 				"img/sprites/player/god.png": null,
+
 				"img/sprites/marine/idle/0_0.png": null,
 				"img/sprites/marine/idle/45_0.png": null,
 				"img/sprites/marine/idle/90_0.png": null,
@@ -117,6 +131,7 @@ var Loader = (function() {
 				"img/sprites/marine/death/7.png": null,
 				"img/sprites/marine/death/8.png": null,
 				"img/sprites/marine/hitstun/0.png": null,
+
 				"img/sprites/demon/idle/0_0.png": null,
 				"img/sprites/demon/idle/45_0.png": null,
 				"img/sprites/demon/idle/90_0.png": null,
@@ -188,6 +203,7 @@ var Loader = (function() {
 				"img/sprites/demon/death/4.png": null,
 				"img/sprites/demon/death/5.png": null,
 				"img/sprites/demon/hitstun/0.png": null,
+
 				"img/sprites/commando/idle/0_0.png": null,
 				"img/sprites/commando/idle/45_0.png": null,
 				"img/sprites/commando/idle/90_0.png": null,
@@ -252,6 +268,7 @@ var Loader = (function() {
 				"img/sprites/commando/death/5.png": null,
 				"img/sprites/commando/death/6.png": null,
 				"img/sprites/commando/hitstun/0.png": null,
+				
 				"img/sprites/san/idle/0.png": null,
 				"img/sprites/san/idle/1.png": null,
 				"img/sprites/san/idle/2.png": null,
