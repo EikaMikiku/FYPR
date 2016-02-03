@@ -156,7 +156,7 @@ Npc.prototype.getInteracted = function(interactorAngle) {
 	this.angle %= window.TWO_PI;
 	this.interaction();
 };
-Npc.prototype.say = function(text) {
+Npc.prototype.say = function(text, doneCB, timer) {
 	var date = new Date();
 	var sec = date.getSeconds();
 	sec = sec < 10 ? "0"+sec : sec;
@@ -165,15 +165,19 @@ Npc.prototype.say = function(text) {
 	var hour = date.getHours();
 	hour = hour < 10 ? "0"+hour : hour;
 	var dateStr = "["+hour+":"+min+":"+sec+"]";
-	window.game.addToTerminal(dateStr + " " + this.npcName + ": " + text);
+	window.game.addToTerminal(dateStr + " " + this.npcName + ": " + text, doneCB, timer);
 };
 Npc.prototype.interaction = function() {
 	var interaction = this.interactions[this.interactionId];
-	interaction(this);
-	this.interactionId++;
-	if(this.interactionId === this.interactions.length) {
-		this.interactable = false;
-	}
+	this.interactable = false;
+	interaction(this, function() {
+		this.interactionId++;
+		if(this.interactionId === this.interactions.length) {
+			this.interactable = false;
+		} else {
+			this.interactable = true;
+		}
+	}.bind(this));
 };
 Npc.prototype.takeDamage = function(dmg) {
 	this.hp -= dmg;

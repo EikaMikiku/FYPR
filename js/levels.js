@@ -104,20 +104,30 @@ var LEVELS = {
 				"minimapColor": "red",
 				"interactable": true,
 				"interactions": [
-					function(npc) {
-						npc.say("It's a beautiful day outside.");
+					function(npc, doneCB) {
+						npc.say("It's a beautiful day outside.", doneCB);
 					},
-					function(npc) {
-						npc.say("Birds are singing. Flowers are blooming...");
+					function(npc, doneCB) {
+						npc.say("Birds are singing. Flowers are blooming...", doneCB);
 					},
-					function(npc) {
-						npc.say("On days like these... Meme lovers like you... ");
-						setTimeout(function() {
-							window.game.addToTerminal("Should be burning in hell...", 100, true);
-							setTimeout(function() {
+					function(npc, doneCB) {
+						npc.say("On days like these... People like you... ", doneCB);
+					},
+					function(npc, doneCB) {
+						var terminal = Game().terminal;
+						var lastText = terminal.lastChild;
+						var text = "Should be burning in hell...";
+						var current = 0;
+						var timer = setInterval(function() {
+							lastText.textContent += text[current];
+							current++;
+							if(current === text.length) {
+								clearInterval(timer);
 								npc.aggressive = true;
-							}, 3600);
-						}, 1500);
+								doneCB();
+							}
+							terminal.scrollTop = terminal.scrollHeight;
+						}, 100);
 					}
 				],
 				"fov": 160 * Math.PI / 180

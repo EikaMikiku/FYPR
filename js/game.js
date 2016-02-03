@@ -15,7 +15,6 @@ var Game = (function() {
 		var loader = Loader().load(function(src) {
 			console.log(src);
 		}, function() {
-			Game.addToTerminal("What a horrible night to live...");
 			Game.engineLoop();
 		});
 		var keyStates = {
@@ -30,24 +29,22 @@ var Game = (function() {
 		Game.getGameCanvas = function() {
 			return gameCanvas;
 		};
-		Game.addToTerminal = function(text, timerTime, appendToLast) {
+		Game.addToTerminal = function(text, done) {
 			var span = null;
 			var current = 0;
-			if(appendToLast) {
-				span = Game.terminal.lastChild;
-			} else {
-				span = document.createElement("span");
-				span.className = "dialogSpan";
-				Game.terminal.appendChild(span);
-			}
+			span = document.createElement("span");
+			span.className = "dialogSpan";
+			Game.terminal.appendChild(span);
+
 			var timer = setInterval(function() {
 				span.textContent += text[current];
 				current++;
 				if(current === text.length) {
+					done();
 					clearInterval(timer);
 				}
 				Game.terminal.scrollTop = Game.terminal.scrollHeight;
-			}, timerTime || 10);
+			}, 10);
 		};
 		Game.engineLoop = function() {
 			if(gameOver) return;
