@@ -4,6 +4,12 @@ var Loader = (function() {
 		function Loader(){};
 		Loader.res = {
 			"img": {
+				"img/sprites/weapons/pistol/idle.png": null,
+				"img/sprites/weapons/pistol/shoot_0.png": null,
+				"img/sprites/weapons/pistol/shoot_1.png": null,
+				"img/sprites/weapons/pistol/shoot_2.png": null,
+				"img/sprites/weapons/pistol/small.png": null,
+
 				"img/sprites/weapons/shotgun1/idle.png": null,
 				"img/sprites/weapons/shotgun1/shoot_0.png": null,
 				"img/sprites/weapons/shotgun1/shoot_1.png": null,
@@ -23,6 +29,11 @@ var Loader = (function() {
 				"img/sprites/weapons/shotgun2/shoot_5.png": null,
 				"img/sprites/weapons/shotgun2/shoot_6.png": null,
 				"img/sprites/weapons/shotgun2/small.png": null,
+
+				"img/sprites/weapons/machinegun/idle.png": null,
+				"img/sprites/weapons/machinegun/shoot_0.png": null,
+				"img/sprites/weapons/machinegun/shoot_1.png": null,
+				"img/sprites/weapons/machinegun/small.png": null,
 
 				"img/wallTextures/lev0wall0.png": null,
 				"img/wallTextures/lev0wall1.png": null,

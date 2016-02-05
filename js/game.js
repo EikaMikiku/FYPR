@@ -15,6 +15,7 @@ var Game = (function() {
 		var loader = Loader().load(function(src) {
 			console.log(src);
 		}, function() {
+			player.changeWeapon("pistol");
 			Game.engineLoop();
 		});
 		var keyStates = {
@@ -22,7 +23,8 @@ var Game = (function() {
 			"s": false,
 			"a": false,
 			"d": false,
-			"ctrl": false
+			"ctrl": false,
+			"space": false
 		};
 		var weapons = ["chainsaw", "pistol", "shotgun", "machinegun", "rocketlauncher"];
 		Game.terminal = document.getElementById("dialogWindow");
@@ -96,7 +98,7 @@ var Game = (function() {
 				mapManager.showMap();
 			} else if(e.keyCode === 32) {
 				e.preventDefault();
-				player.shoot();
+				keyStates.space = true;
 			} else if(e.keyCode > 48 && e.keyCode < 54) {
 				//50 => 2; 51 => 3; 52 => 4; 53 => 5;
 				player.changeWeapon(weapons[e.keyCode-49]);
@@ -115,6 +117,8 @@ var Game = (function() {
 				mapManager.hideMap();
 			} else if(e.keyCode === 17) {
 				keyStates.ctrl = false;
+			} else if(e.keyCode === 32) {
+				keyStates.space = false;
 			}
 		});
 		gameCanvas.addEventListener("click", function(e) {

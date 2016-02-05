@@ -1,19 +1,20 @@
 function Npc(obj) {
 	this.base = Entity;
+	var npcData = SPRITES[obj.spriteName];
 	this.base(obj.x, obj.y, "npc", obj.angle, obj.fov);
-	this.moveSpeed = obj.moveSpeed;
-	this.roamSpeed = obj.roamSpeed;
+	this.moveSpeed = obj.moveSpeed || npcData.moveSpeed;
+	this.roamSpeed = obj.roamSpeed || npcData.roamSpeed;
 	this.originX = obj.x;
 	this.originY = obj.y;
 	this.npcName = obj.npcName;
 	this.spriteName = obj.spriteName;
 	this.aggressive = obj.aggressive;
 	this.roaming = obj.isRoaming;
-	this.attackRange = obj.attackRange;
-	this.viewRange = obj.viewRange;
-	this.missChance = obj.missChance;
-	this.damage = obj.damage;
-	this.hp = obj.hp;
+	this.attackRange = obj.attackRange || npcData.attackRange;
+	this.viewRange = obj.viewRange || npcData.viewRange;
+	this.missChance = obj.missChance || npcData.missChance;
+	this.damage = obj.damage || npcData.damage;
+	this.hp = obj.hp || npcData.hp;
 	this.canAttack = false;
 	this.action = "idle";
 	this.currentSpriteId = 0;
@@ -28,6 +29,7 @@ function Npc(obj) {
 	this.interactable = obj.interactable;
 	this.interactions = obj.interactions;
 	this.interactionId = 0;
+	this.hitstunChance = obj.hitstunChance || npcData.hitstunChance;
 	this.renderInfo = {}; //This is populated from raycaster
 }
 Npc.prototype = new Entity; //Load generic entity functions
@@ -181,9 +183,11 @@ Npc.prototype.interaction = function() {
 };
 Npc.prototype.takeDamage = function(dmg) {
 	this.hp -= dmg;
-	this.action = "hitstun";
-	this.currentSpriteId = 0;
-	this.spriteStartFrame = window.game.frameCount;
+	if(Math.random() < this.hitstunChance) {
+		this.action = "hitstun";
+		this.currentSpriteId = 0;
+		this.spriteStartFrame = window.game.frameCount;
+	}
 	this.aggressive = true;
 	this.attacking = true;
 }

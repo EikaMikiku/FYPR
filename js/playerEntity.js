@@ -31,6 +31,7 @@ function Player(x, y, angle) {
 	this.mouse0Down = false;
 	this.swayDelta = 0;
 	this.weaponChanging = false;
+	this.weaponSmallImg = document.getElementById("weaponImg");
 	var pointerLockElement = null;
 
 	document.addEventListener("pointerlockchange", onPointerLockChange.bind(this));
@@ -164,7 +165,7 @@ Player.prototype.frameAction = function() {
 	this.move();
 	this.decreaseBloodScreen();
 	this.updateHead();
-	if(this.mouse0Down && !this.weaponChanging) {
+	if((this.mouse0Down && !this.weaponChanging) || window.game.getKeyStates().space) {
 		this.shoot();
 	}
 	if(this.weaponAction === "idle") {
@@ -313,6 +314,7 @@ Player.prototype.changeWeapon = function(weapon) {
 		} else {
 			this.weapon = weapon;
 		}
+		this.weaponSmallImg.src = "img/sprites/weapons/"+this.weapon+"/small.png";
 		this.weaponSwayY += 150;
 		this.weaponChanging = true;
 		setTimeout(function(){

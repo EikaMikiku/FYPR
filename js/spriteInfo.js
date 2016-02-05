@@ -1,5 +1,13 @@
 var SPRITES = {
 	"marine": {
+		"attackRange": 50,
+		"viewRange": 90,
+		"damage": 5,
+		"missChance": 0.5,
+		"roamSpeed": 0.18,
+		"moveSpeed": 0.5,
+		"hp": 20,
+		"hitstunChance": 0.7813,
 		"idle": {
 			"rotatable": true,
 			"frameCount": 1,
@@ -41,6 +49,14 @@ var SPRITES = {
 		}
 	},
 	"demon": {
+		"attackRange": 10,
+		"viewRange": 90,
+		"damage": 15,
+		"missChance": 0,
+		"roamSpeed": 0.5,
+		"moveSpeed": 0.75,
+		"hp": 150,
+		"hitstunChance": 0.7031,
 		"idle": {
 			"rotatable": true,
 			"frameCount": 1,
@@ -82,6 +98,14 @@ var SPRITES = {
 		}
 	},
 	"commando": {
+		"attackRange": 40,
+		"viewRange": 70,
+		"damage": 2,
+		"missChance": 0.1,
+		"roamSpeed": 0.12,
+		"moveSpeed": 0.3,
+		"hp": 70,
+		"hitstunChance": 0.6641,
 		"idle": {
 			"rotatable": true,
 			"frameCount": 1,
@@ -123,6 +147,14 @@ var SPRITES = {
 		}
 	},
 	"san": {
+		"attackRange": 20,
+		"viewRange": 70,
+		"damage": 20,
+		"missChance": 0.1,
+		"roamSpeed": 0.12,
+		"moveSpeed": 0.3,
+		"hp": 1000,
+		"hitstunChance": 0.7031,
 		"idle": {
 			"rotatable": false,
 			"frameCount": 10,
@@ -164,6 +196,19 @@ var SPRITES = {
 		}
 	},
 	"weapons": {
+		"pistol": {
+			"frameCount": 3,
+			"delays": [
+				3, 8, 8
+			],
+			"attackFrame": {
+				"startFrame": 1,
+				"frameId": 1
+			},
+			damageCalculation: function(distance) {
+				return 10;
+			}
+		},
 		"shotgun1": {
 			"frameCount": 7,
 			"delays": [
@@ -174,7 +219,12 @@ var SPRITES = {
 				"frameId": 1
 			},
 			damageCalculation: function(distance) {
-				return 2000 / distance; //20 at distance = 100
+				var dmg = 2000 / distance; //20 at distance = 100
+				if(dmg < 5)
+					dmg = 5;
+				else if(dmg > 80)
+					dmg = 80;
+				return dmg;
 			}
 		},
 		"shotgun2": {
@@ -187,7 +237,26 @@ var SPRITES = {
 				"frameId": 1
 			},
 			damageCalculation: function(distance) {
-				return 2000 / distance; //20 at distance = 100
+				var dmg = 3500 / distance; //35 at distance = 100
+				if(dmg < 7)
+					dmg = 7;
+				else if(dmg > 120)
+					dmg = 120;
+				console.log(dmg);
+				return dmg;
+			}
+		},
+		"machinegun": {
+			"frameCount": 2,
+			"delays": [
+				5, 5
+			],
+			"attackFrame": {
+				"startFrame": 1,
+				"frameId": 1
+			},
+			damageCalculation: function(distance) {
+				return 5;
 			}
 		}
 	}
