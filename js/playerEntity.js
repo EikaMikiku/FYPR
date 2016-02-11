@@ -173,6 +173,8 @@ Player.prototype.frameAction = function() {
 	} else {
 		this.updateWeaponShootSprite();
 	}
+	SoundManager().audioContext.listener.setPosition(this.x, 0, this.y);
+	SoundManager().audioContext.listener.setOrientation(Math.cos(this.angle), 0, Math.sin(this.angle), 0, 1, 0);
 };
 Player.prototype.showInteractAvailable = function(npc) {
 	if(!this.showingInteractHelp) {

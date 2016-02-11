@@ -46,6 +46,9 @@ var SPRITES = {
 			"delays": [
 				3, 3, 3, 3, 3, 3, 3, 3, Infinity
 			]
+		},
+		"sounds": {
+			"attack": "sounds/wot.ogg"
 		}
 	},
 	"demon": {
@@ -95,6 +98,9 @@ var SPRITES = {
 			"delays": [
 				6, 6, 6, 6, 6, Infinity
 			]
+		},
+		"sounds": {
+			"attack": "sounds/wot.ogg"
 		}
 	},
 	"commando": {
@@ -144,6 +150,9 @@ var SPRITES = {
 			"delays": [
 				6, 6, 6, 6, 6, 6, Infinity
 			]
+		},
+		"sounds": {
+			"attack": "sounds/wot.ogg"
 		}
 	},
 	"san": {
@@ -193,6 +202,9 @@ var SPRITES = {
 			"delays": [
 				3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, Infinity
 			]
+		},
+		"sounds": {
+			"attack": "sounds/wot.ogg"
 		}
 	},
 	"weapons": {

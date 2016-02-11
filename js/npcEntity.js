@@ -31,6 +31,7 @@ function Npc(obj) {
 	this.interactionId = 0;
 	this.hitstunChance = obj.hitstunChance || npcData.hitstunChance;
 	this.renderInfo = {}; //This is populated from raycaster
+	this.sounds = npcData.sounds;
 }
 Npc.prototype = new Entity; //Load generic entity functions
 Npc.prototype.updateSprite = function() {
@@ -130,6 +131,7 @@ Npc.prototype.move = function() {
 Npc.prototype.attackPlayer = function() {
 	if(Math.random() > this.missChance) {
 		window.game.getPlayer().getHit(this);
+		SoundManager().playSound(this.sounds.attack, this.x, this.y);
 	}
 };
 Npc.prototype.isPlayerVisible = function() {

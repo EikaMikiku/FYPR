@@ -311,7 +311,7 @@ var Loader = (function() {
 				"img/sprites/san/attack/2.png": null,
 			},
 			"sounds": {
-
+				"sounds/wot.ogg": null
 			}
 		};
 
@@ -322,29 +322,43 @@ var Loader = (function() {
 		var resourceCount = Object.keys(Loader.res.img).length;
 		resourceCount += Object.keys(Loader.res.sounds).length;
 
-		Loader.load = function(done1cb, doneAllcb) {
+		Loader.load = function(doneAllcb) {
 			for(src in Loader.res.img) {
 				var newImg = new Image();
 				newImg.src = src;
 				(function(img, src){
 					img.onload = function() {
 						Loader.res.img[src] = img;
-						finishedLoadingResource(src, done1cb, doneAllcb);
+						finishedLoadingResource(src, doneAllcb);
 					};
 				})(newImg, src);
 			}
-			//load sounds
+			for(src in Loader.res.sounds) {
+				loadAudio(src, function(buffer) {
+					Loader.res.sounds[src] = buffer;
+					finishedLoadingResource(src, doneAllcb);
+				});
+			}
 		};
 
-		function finishedLoadingResource(src, oneCb, allCb) {
+		function finishedLoadingResource(src, allCb) {
 			currentlyLoaded++;
-			oneCb(src);
 			loaderText.textContent = src;
 			loaderLoadedBar.style.width = (100 * currentlyLoaded / resourceCount) + "%";
 			if(currentlyLoaded === resourceCount) {
 				loaderScreen.style.opacity = 0;
 				allCb();
 			}
+		}
+
+		function loadAudio(url, cb) {
+			var ajax = new XMLHttpRequest();
+			ajax.open("GET", url, true);
+			ajax.responseType = "arraybuffer";
+			ajax.onload = function(e) {
+				cb(this.response);
+			};
+			ajax.send();
 		}
 
 		return Loader;

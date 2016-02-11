@@ -12,9 +12,7 @@ var Game = (function() {
 		var rayCaster = RayCaster(gameCanvas, player);
 		var gameOver = false;
 		var gameOverScreen = document.getElementById("gameOverScreen");
-		var loader = Loader().load(function(src) {
-			console.log(src);
-		}, function() {
+		var loader = Loader().load(function() {
 			player.changeWeapon("pistol");
 			Game.engineLoop();
 		});
