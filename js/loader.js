@@ -335,8 +335,10 @@ var Loader = (function() {
 			}
 			for(src in Loader.res.sounds) {
 				loadAudio(src, function(buffer) {
-					Loader.res.sounds[src] = buffer;
-					finishedLoadingResource(src, doneAllcb);
+					SoundManager().audioContext.decodeAudioData(buffer, function(buffer) {
+						Loader.res.sounds[src] = buffer;
+						finishedLoadingResource(src, doneAllcb);
+					});
 				});
 			}
 		};
