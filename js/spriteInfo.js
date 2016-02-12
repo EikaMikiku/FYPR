@@ -48,7 +48,9 @@ var SPRITES = {
 			]
 		},
 		"sounds": {
-			"attack": "sounds/wot.ogg"
+			"attack": "sounds/pistol.wav",
+			"death": "sounds/marinedeath.wav",
+			"injury": "sounds/marineinjured.wav"
 		}
 	},
 	"demon": {
@@ -100,7 +102,9 @@ var SPRITES = {
 			]
 		},
 		"sounds": {
-			"attack": "sounds/wot.ogg"
+			"attack": "sounds/demonattack.wav",
+			"death": "sounds/demondeath.wav",
+			"injury": "sounds/demoninjured.wav"
 		}
 	},
 	"commando": {
@@ -152,7 +156,9 @@ var SPRITES = {
 			]
 		},
 		"sounds": {
-			"attack": "sounds/wot.ogg"
+			"attack": "sounds/pistol.wav",
+			"death": "sounds/commandodeath.wav",
+			"injury": "sounds/marineinjured.wav"
 		}
 	},
 	"san": {
@@ -204,7 +210,9 @@ var SPRITES = {
 			]
 		},
 		"sounds": {
-			"attack": "sounds/wot.ogg"
+			"attack": "sounds/sanattack.wav",
+			"death": "sounds/sandeath.wav",
+			"injury": "sounds/saninjured.wav"
 		}
 	},
 	"weapons": {
@@ -219,7 +227,8 @@ var SPRITES = {
 			},
 			damageCalculation: function(distance) {
 				return 10;
-			}
+			},
+			"sound": "sounds/pistol.wav"
 		},
 		"shotgun1": {
 			"frameCount": 7,
@@ -237,7 +246,8 @@ var SPRITES = {
 				else if(dmg > 80)
 					dmg = 80;
 				return dmg;
-			}
+			},
+			"sound": "sounds/shotgun1.wav"
 		},
 		"shotgun2": {
 			"frameCount": 7,
@@ -256,7 +266,8 @@ var SPRITES = {
 					dmg = 120;
 				console.log(dmg);
 				return dmg;
-			}
+			},
+			"sound": "sounds/shotgun2.wav"
 		},
 		"machinegun": {
 			"frameCount": 2,
@@ -269,7 +280,8 @@ var SPRITES = {
 			},
 			damageCalculation: function(distance) {
 				return 5;
-			}
+			},
+			"sound": "sounds/pistol.wav"
 		}
 	}
 };

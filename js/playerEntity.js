@@ -250,6 +250,7 @@ Player.prototype.updateWeaponSway = function() {
 };
 Player.prototype.shoot = function() {
 	if(this.weaponAction !== "shoot") {
+		SoundManager().playSound(SPRITES["weapons"][this.weapon].sound);
 		this.weaponAction = "shoot";
 		this.currentShootSpriteId = 0;
 		this.shootSpriteStartFrame = window.game.frameCount;

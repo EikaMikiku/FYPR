@@ -90,7 +90,7 @@ var LEVELS = {
 				"spriteName": "san",
 				"aggressive": false,
 				"x": 465,
-				"y": 55,
+				"y": 75,
 				"angle": Math.PI,
 				"isRoaming": false,
 				"roamDist": 20,

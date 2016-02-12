@@ -147,6 +147,7 @@
 }
 #weaponContainer img {
 	zoom: 2;
+	-moz-transform: scale(2);
     image-rendering: pixelated;
 	position: absolute;
 	margin: auto;
@@ -178,7 +179,16 @@
 	width: 570px;
 	height: 50px;
     color: #18FF62;
-    text-shadow: 0px 0px 6px rgba(0, 0, 0, 1), 0px 0px 3px rgba(0, 0, 0, 1);
+    text-shadow: 
+    	0px 0px 8px black,
+    	0px 0px 8px black,
+    	0px 0px 8px black,
+    	0px 0px 8px black,
+    	0px 0px 8px black,
+    	0px 0px 8px black,
+    	0px 0px 8px black,
+    	0px 0px 8px black,
+    	0px 0px 8px black;
     font-family: monospace;
     padding: 5px;
     overflow: hidden;

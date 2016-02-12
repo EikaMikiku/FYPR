@@ -311,7 +311,18 @@ var Loader = (function() {
 				"img/sprites/san/attack/2.png": null,
 			},
 			"sounds": {
-				"sounds/wot.ogg": null
+				"sounds/commandodeath.wav": null,
+				"sounds/demonattack.wav": null,
+				"sounds/demondeath.wav": null,
+				"sounds/demoninjured.wav": null,
+				"sounds/marinedeath.wav": null,
+				"sounds/marineinjured.wav": null,
+				"sounds/pistol.wav": null,
+				"sounds/sanattack.wav": null,
+				"sounds/sandeath.wav": null,
+				"sounds/saninjured.wav": null,
+				"sounds/shotgun1.wav": null,
+				"sounds/shotgun2.wav": null
 			}
 		};
 
@@ -334,12 +345,14 @@ var Loader = (function() {
 				})(newImg, src);
 			}
 			for(src in Loader.res.sounds) {
-				loadAudio(src, function(buffer) {
-					SoundManager().audioContext.decodeAudioData(buffer, function(buffer) {
-						Loader.res.sounds[src] = buffer;
-						finishedLoadingResource(src, doneAllcb);
+				(function(src) {
+					loadAudio(src, function(buffer) {
+						SoundManager().audioContext.decodeAudioData(buffer, function(buffer) {
+							Loader.res.sounds[src] = buffer;
+							finishedLoadingResource(src, doneAllcb);
+						});
 					});
-				});
+				})(src);
 			}
 		};
 

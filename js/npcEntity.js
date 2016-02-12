@@ -185,11 +185,16 @@ Npc.prototype.interaction = function() {
 };
 Npc.prototype.takeDamage = function(dmg) {
 	this.hp -= dmg;
+	if(this.hp <= 0) {
+		SoundManager().playSound(this.sounds.death, this.x, this.y);
+	}
 	if(Math.random() < this.hitstunChance) {
+		SoundManager().playSound(this.sounds.injury, this.x, this.y);
 		this.action = "hitstun";
 		this.currentSpriteId = 0;
 		this.spriteStartFrame = window.game.frameCount;
 	}
 	this.aggressive = true;
 	this.attacking = true;
+
 }
