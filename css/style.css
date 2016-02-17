@@ -225,16 +225,15 @@
 	left: 50%;
 	top: 50%;
 	margin-left: -300px;
-	margin-top: -260px;
+	margin-top: 0px;
 	z-index: 102;
 	width: 600px;
-	height: 400px;
+	height: 100px;
 	font-size: 50px;
 	color: white;
-    text-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
-    background: rgba(0,0,0,0.5);
+    background: transparent;
     text-align: center;
-    line-height: 200px;
+    line-height: 50px;
     display: none;
 }
 /*Loader*/
@@ -270,4 +269,35 @@
 	width: 0%;
 	height: 100%;
 	background-color: red;
+}
+/*Gui*/
+#guiContainer {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -320px;
+	margin-top: -280px;
+	background-color: black;
+	z-index: 101;
+	width: 640px;
+	pointer-events: none;
+	transition: opacity 1s;
+	height: 540px;
+}
+.menuItem {
+	font-family: "Helvetica";
+    text-align: center;
+	color: black;
+	background-color: white;
+	font-size: 60px;
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 40px;
+	padding-bottom: 6px;
+	border-radius: 3px;
+}
+.menuItem.current {
+	background-color: coral;
+	color: white;
 }

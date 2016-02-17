@@ -36,43 +36,6 @@ function Player(x, y, angle) {
 
 	document.addEventListener("pointerlockchange", onPointerLockChange.bind(this));
 	document.addEventListener("mozpointerlockchange", onPointerLockChange.bind(this));
-	document.addEventListener("keyup", function(e) {
-		if(e.keyCode === 69) {
-			e.preventDefault();
-			attemptInteract(this);
-		} else if(e.keyCode === 16) {
-			e.preventDefault();
-			if(this.moveSpeed === this.runSpeed) {
-				this.moveSpeed = this.walkSpeed;
-			} else {
-				this.moveSpeed = this.runSpeed;
-			}
-		}
-	}.bind(this));
-
-	function attemptInteract(that) {
-		var npcs = window.game.npcs;
-		var minDist = Infinity;
-		var minDistNpc = null;
-		var allowedDistance = that.interactDistance * that.interactDistance;
-		for(var i = 0; i < npcs.length; i++) {
-			var npc = npcs[i];
-			if(npc.interactable && npc.hp > 0 && that.isPointingAtNpc(npc)) {
-				var diffX = that.x - npc.x;
-				var diffY = that.y - npc.y;
-				var dist = diffX*diffX + diffY*diffY;
-				if(dist < allowedDistance) {
-					if(!minDistNpc || dist < minDist) {
-						minDist = dist;
-						minDistNpc = npc;
-					}
-				}
-			}
-		}
-		if(minDistNpc) {
-			minDistNpc.getInteracted(that.angle);
-		}
-	}
 
 	function onPointerLockChange() {
 		var elem = document.pointerLockElement || document.mozPointerLockElement;
@@ -112,6 +75,29 @@ function Player(x, y, angle) {
 	};
 }
 Player.prototype = new Entity; //Load generic entity functions
+Player.prototype.attemptInteract = function () {
+	var npcs = window.game.npcs;
+	var minDist = Infinity;
+	var minDistNpc = null;
+	var allowedDistance = this.interactDistance * this.interactDistance;
+	for(var i = 0; i < npcs.length; i++) {
+		var npc = npcs[i];
+		if(npc.interactable && npc.hp > 0 && this.isPointingAtNpc(npc)) {
+			var diffX = this.x - npc.x;
+			var diffY = this.y - npc.y;
+			var dist = diffX*diffX + diffY*diffY;
+			if(dist < allowedDistance) {
+				if(!minDistNpc || dist < minDist) {
+					minDist = dist;
+					minDistNpc = npc;
+				}
+			}
+		}
+	}
+	if(minDistNpc) {
+		minDistNpc.getInteracted(this.angle);
+	}
+};
 Player.prototype.move = function() {
 	var keyStates = window.game.getKeyStates();
 	this.moving = false;
@@ -188,13 +174,13 @@ Player.prototype.hideInteractAvailable = function() {
 };
 Player.prototype.getHit = function(npc) {
 	this.hp -= npc.damage;
+	this.bloodScreen.style.opacity = parseFloat(this.bloodScreen.style.opacity) + npc.damage / 20;
 	if(this.hp <= 0) {
 		this.headAction = "dead";
 		this.updateHead();
 		window.game.gameOver();
 	}
 	this.hpInfo.textContent = this.hp;
-	this.bloodScreen.style.opacity = parseFloat(this.bloodScreen.style.opacity) + npc.damage / 20;
 	var newHeadAction = "attacked";
 	if(npc.damage >= 20 || this.hp < 30) {
 		newHeadAction = "surprised";
