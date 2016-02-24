@@ -88,18 +88,18 @@ var RayCaster = (function() {
 				var npc = window.game.npcs[0];
 				var diffX = npc.x - player.x;
 				var diffY = npc.y - player.y;
-				npc.dist = Math.sqrt(diffX*diffX + diffY*diffY);
+				npc.dist = (diffX*diffX + diffY*diffY);
 			} else {
 				window.game.npcs.sort(function(a, b) {
 					if(!a.dist) {
 						var aDiffX = a.x - player.x;
 						var aDiffY = a.y - player.y;
-						a.dist = Math.sqrt(aDiffX*aDiffX + aDiffY*aDiffY);
+						a.dist = (aDiffX*aDiffX + aDiffY*aDiffY);
 					}
 					if(!b.dist) {
 						var bDiffX = b.x - player.x;
 						var bDiffY = b.y - player.y;
-						b.dist = Math.sqrt(bDiffX*bDiffX + bDiffY*bDiffY);
+						b.dist = (bDiffX*bDiffX + bDiffY*bDiffY);
 					}
 					return b.dist - a.dist;
 				});
@@ -108,7 +108,7 @@ var RayCaster = (function() {
 				var npc = window.game.npcs[i];
 				var diffX = npc.x - player.x;
 				var diffY = npc.y - player.y;
-				var dist = npc.dist; //Calculated in the sorting above
+				var dist = Math.sqrt(npc.dist); //Calculated in the sorting above
 				npc.dist = null; //This will force distance update on the next frame;
 
 				var angDiff = Math.atan2(diffY, diffX);

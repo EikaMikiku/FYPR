@@ -82,13 +82,13 @@ Npc.prototype.move = function() {
 		if(diffX*diffX + diffY*diffY < this.roamTargetMargin) {
 			this.reachedRoamTarget = true;
 		}
-		if(this.aggressive && this.isPlayerVisible(window.game.getPlayer().x, window.game.getPlayer().y)) {
+		if(this.aggressive && this.isPlayerVisible()) {
 			this.roaming = false;
 			this.attacking = true;
 			this.currentSpriteId = 0;
 		}
 	} else if(this.aggressive && !this.attacking) {
-		if(this.isPlayerVisible(window.game.getPlayer().x, window.game.getPlayer().y)) {
+		if(this.isPlayerVisible()) {
 			this.roaming = false;
 			this.attacking = true;
 			this.currentSpriteId = 0;
@@ -120,6 +120,7 @@ Npc.prototype.move = function() {
 			this.y = posInfo.y;
 		}
 		if(!this.isPlayerVisible()) {
+			this.currentSpriteId = 0;
 			this.originX = this.x;
 			this.originY = this.y;
 			this.roaming = true;
