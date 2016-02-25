@@ -32,6 +32,7 @@ function Npc(obj) {
 	this.hitstunChance = obj.hitstunChance || npcData.hitstunChance;
 	this.renderInfo = {}; //This is populated from raycaster
 	this.sounds = npcData.sounds;
+	this.pointsWorth = npcData.pointsWorth;
 }
 Npc.prototype = new Entity; //Load generic entity functions
 Npc.prototype.updateSprite = function() {
@@ -99,13 +100,13 @@ Npc.prototype.move = function() {
 		var diffY = window.game.getPlayer().y - this.y;
 		var dist = Math.sqrt(diffX*diffX + diffY*diffY);
 		this.angle = Math.atan2(diffY, diffX);
-		if(dist < this.attackRange) {
+		if(dist < this.attackRange || (this.action === "attack" && this.currentSpriteId != 0)) {
 			if(this.action !== "attack") {
 				this.action = "attack";
 				this.currentSpriteId = 0;	
 			}
 			var attackFrame = SPRITES[this.spriteName][this.action].attackFrame;
-			if(this.currentSpriteId+1 == attackFrame.startFrame && window.game.frameCount - this.spriteStartFrame == attackFrame.frameId) {
+			if(this.currentSpriteId == attackFrame.frameId && window.game.frameCount - this.spriteStartFrame == attackFrame.frameId) {
 				this.attackPlayer();
 			}
 		} else {
@@ -130,9 +131,9 @@ Npc.prototype.move = function() {
 	}
 };
 Npc.prototype.attackPlayer = function() {
+	SoundManager().playSound(this.sounds.attack, this.x, this.y);
 	if(Math.random() > this.missChance) {
 		window.game.getPlayer().getHit(this);
-		SoundManager().playSound(this.sounds.attack, this.x, this.y);
 	}
 };
 Npc.prototype.isPlayerVisible = function() {
@@ -187,6 +188,10 @@ Npc.prototype.interaction = function() {
 Npc.prototype.takeDamage = function(dmg) {
 	this.hp -= dmg;
 	if(this.hp <= 0) {
+		if(this.ondeath) {
+			this.ondeath();
+		}
+		window.game.points += this.pointsWorth;
 		SoundManager().playSound(this.sounds.death, this.x, this.y);
 	}
 	if(Math.random() < this.hitstunChance) {

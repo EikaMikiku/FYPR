@@ -1,5 +1,6 @@
 var SPRITES = {
 	"marine": {
+		"pointsWorth": 20,
 		"attackRange": 50,
 		"viewRange": 90,
 		"damage": 5,
@@ -54,13 +55,14 @@ var SPRITES = {
 		}
 	},
 	"demon": {
+		"pointsWorth": 70,
 		"attackRange": 10,
 		"viewRange": 90,
 		"damage": 15,
 		"missChance": 0,
-		"roamSpeed": 0.5,
-		"moveSpeed": 0.75,
-		"hp": 150,
+		"roamSpeed": 0.8,
+		"moveSpeed": 1,
+		"hp": 1500,
 		"hitstunChance": 0.7031,
 		"idle": {
 			"rotatable": true,
@@ -73,7 +75,7 @@ var SPRITES = {
 			"rotatable": false,
 			"frameCount": 1,
 			"delays": [
-				15
+				10
 			]
 		},
 		"walk": {
@@ -108,6 +110,7 @@ var SPRITES = {
 		}
 	},
 	"commando": {
+		"pointsWorth": 30,
 		"attackRange": 40,
 		"viewRange": 70,
 		"damage": 2,
@@ -162,12 +165,13 @@ var SPRITES = {
 		}
 	},
 	"san": {
-		"attackRange": 20,
-		"viewRange": 70,
-		"damage": 20,
+		"pointsWorth": 100,
+		"attackRange": 30,
+		"viewRange": 700,
+		"damage": 40,
 		"missChance": 0.1,
-		"roamSpeed": 0.12,
-		"moveSpeed": 0.3,
+		"roamSpeed": 0.82,
+		"moveSpeed": 3,
 		"hp": 1000,
 		"hitstunChance": 0.7031,
 		"idle": {

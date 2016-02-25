@@ -1,6 +1,7 @@
 var LEVELS = {
 	"0": {
-		"name": "maptest",
+		"name": "Level 0",
+		"startText": "Find the pinky and talk to him. (green dot on map)",
 		"data": [
 			//Red
 			[260,60,260,39,250,39,240,29,210,19,210,9,79,9,79,40,130,40,130,29,110,29,110,20,139,20,139,49,49,49,49,100,69,100,69,119,39,119,39,129,-1000,129,-1000,0,420,-1000,420,67,79,67,79,89,60,89,60,60],
@@ -89,8 +90,8 @@ var LEVELS = {
 				"npcName": "San",
 				"spriteName": "san",
 				"aggressive": false,
-				"x": 465,
-				"y": 75,
+				"x": 115,
+				"y": 315,
 				"angle": Math.PI,
 				"isRoaming": false,
 				"roamDist": 20,
@@ -98,7 +99,7 @@ var LEVELS = {
 				"interactable": true,
 				"interactions": [
 					function(npc, doneCB) {
-						npc.say("It's a beautiful day outside.", doneCB);
+						npc.say("It's a beautiful day outside...", doneCB);
 					},
 					function(npc, doneCB) {
 						npc.say("Birds are singing. Flowers are blooming...", doneCB);
@@ -117,6 +118,13 @@ var LEVELS = {
 							if(current === text.length) {
 								clearInterval(timer);
 								npc.aggressive = true;
+								npc.damage = 20;
+								npc.viewRange = 100;
+								npc.moveSpeed = 0.8;
+								npc.roamSpeed = 0.5;
+								npc.ondeath = function() {
+									setTimeout(window.game.completedLevel, 2000);
+								};
 								doneCB();
 							}
 							terminal.scrollTop = terminal.scrollHeight;
@@ -140,7 +148,7 @@ var LEVELS = {
 				"fov": 160 * Math.PI / 180
 			},
 			{
-				"npcName": "Swine",
+				"npcName": "Pinky",
 				"spriteName": "demon",
 				"aggressive": false,
 				"x": 540,
@@ -149,8 +157,23 @@ var LEVELS = {
 				"isRoaming": false,
 				"roamDist": 30,
 				"minimapColor": "green",
-				"interactable": false,
-				"interactions": null,
+				"interactable": true,
+				"interactions": [
+					function(npc, doneCB) {
+						npc.say("Listen here, i need you to stop evil being.", doneCB);
+					},
+					function(npc, doneCB) {
+						npc.say("He goes by the name \"San\".", doneCB);
+					},
+					function(npc, doneCB) {
+						npc.interactable = false;
+						npc.say("You can find him in a big red chamber. Talk to him.", doneCB);
+					},
+					function(npc, doneCB) {
+						npc.interactionId--;
+						npc.say("Go on, find San in a red chamber and talk to him!", doneCB);
+					}
+				],
 				"fov": 170 * Math.PI / 180
 			},
 			{
@@ -294,8 +317,8 @@ var LEVELS = {
 				"fov": 160 * Math.PI / 180
 			},
 			{
-				"npcName": "Marine",
-				"spriteName": "marine",
+				"npcName": "Commando",
+				"spriteName": "commando",
 				"aggressive": true,
 				"x": 125,
 				"y": 235,
@@ -350,8 +373,8 @@ var LEVELS = {
 				"fov": 160 * Math.PI / 180
 			},
 			{
-				"npcName": "Marine",
-				"spriteName": "marine",
+				"npcName": "Commando",
+				"spriteName": "commando",
 				"aggressive": true,
 				"x": 203,
 				"y": 31,
@@ -392,8 +415,8 @@ var LEVELS = {
 				"fov": 160 * Math.PI / 180
 			},
 			{
-				"npcName": "Marine",
-				"spriteName": "marine",
+				"npcName": "Commando",
+				"spriteName": "commando",
 				"aggressive": true,
 				"x": 152,
 				"y": 241,
@@ -448,8 +471,8 @@ var LEVELS = {
 				"fov": 160 * Math.PI / 180
 			},
 			{
-				"npcName": "Marine",
-				"spriteName": "marine",
+				"npcName": "Commando",
+				"spriteName": "commando",
 				"aggressive": true,
 				"x": 258,
 				"y": 78,
@@ -490,8 +513,8 @@ var LEVELS = {
 				"fov": 160 * Math.PI / 180
 			},
 			{
-				"npcName": "Marine",
-				"spriteName": "marine",
+				"npcName": "Commando",
+				"spriteName": "commando",
 				"aggressive": true,
 				"x": 70,
 				"y": 146,

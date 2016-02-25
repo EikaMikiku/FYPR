@@ -219,7 +219,7 @@
 	background-image: url("../img/bloodScreen.png");
 	pointer-events: none;
 }
-#gameOverScreen {
+#gameOverScreen, #gameCompletedScreen {
 	position: absolute;
 	font-family: "Comic Sans MS";
 	left: 50%;

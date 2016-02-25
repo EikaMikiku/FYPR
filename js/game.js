@@ -12,6 +12,7 @@ var Game = (function() {
 		var gameOver = true;
 		var gamePaused = false;
 		var gameOverScreen = document.getElementById("gameOverScreen");
+		var gameCompletedScreen = document.getElementById("gameCompletedScreen");
 		var loader = Loader().load(function() {
 			guiManager.show();
 		});
@@ -25,6 +26,8 @@ var Game = (function() {
 		};
 		var weapons = ["chainsaw", "pistol", "shotgun", "machinegun", "rocketlauncher"];
 		Game.terminal = document.getElementById("dialogWindow");
+		var gamePoints = document.getElementById("gamePoints");
+		Game.points = 0;
 		Game.getGameCanvas = function() {
 			return gameCanvas;
 		};
@@ -69,14 +72,27 @@ var Game = (function() {
 			gameOverScreen.style.display = "block";
 		};
 		Game.initLevel = function() {
+			while(Game.terminal.firstChild) {
+				Game.terminal.removeChild(Game.terminal.firstChild);
+			}
 			resetPlayer();
+			Game.points = 0;
 			gameOverScreen.style.display = "none";
+			gameCompletedScreen.style.display = "none";
 			Game.frameCount = 0;
 			Game.npcs = generateNpcsArray(mapManager.mapLevel);
 			gameOver = false;
 			gamePaused = false;
 			Game.resetKeyStates();
+			Game.addToTerminal(LEVELS[mapManager.mapLevel].startText, function(){});
 			Game.engineLoop();
+		};
+		Game.completedLevel = function() {
+			gameOver = true;
+			guiManager.show();
+			player.bloodScreen.style.opacity = 0;
+			gamePoints.textContent = Game.points;
+			gameCompletedScreen.style.display = "block";
 		};
 		Game.resetKeyStates = function() {
 			keyStates = {
