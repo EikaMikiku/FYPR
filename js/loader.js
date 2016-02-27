@@ -4,6 +4,12 @@ var Loader = (function() {
 		function Loader(){};
 		Loader.res = {
 			"img": {
+				"img/sprites/smallhppack/idle/0.png": null,
+				"img/sprites/smallhppack/walk/0.png": null,
+				"img/sprites/smallhppack/attack/0.png": null,
+				"img/sprites/smallhppack/death/0.png": null,
+				"img/sprites/smallhppack/hitstun/0.png": null,
+
 				"img/sprites/weapons/pistol/idle.png": null,
 				"img/sprites/weapons/pistol/shoot_0.png": null,
 				"img/sprites/weapons/pistol/shoot_1.png": null,

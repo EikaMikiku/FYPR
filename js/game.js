@@ -16,6 +16,7 @@ var Game = (function() {
 		var loader = Loader().load(function() {
 			guiManager.show();
 		});
+		var toRemoveNpcs = [];
 		var keyStates = {
 			"w": false,
 			"s": false,
@@ -51,6 +52,10 @@ var Game = (function() {
 		Game.engineLoop = function() {
 			if(gameOver || gamePaused) return;
 			player.frameAction();
+			for(var i = 0; i < toRemoveNpcs.length; i++) {
+				Game.npcs.splice(Game.npcs.indexOf(toRemoveNpcs[i]), 1);
+			}
+			toRemoveNpcs = [];
 			for(var i = 0; i < Game.npcs.length; i++) {
 				Game.npcs[i].frameAction();
 			}
@@ -116,6 +121,9 @@ var Game = (function() {
 		};
 		Game.getPauseState = function() {
 			return gamePaused;
+		};
+		Game.removeNpc = function(npc) {
+			toRemoveNpcs.push(npc);
 		};
 
 		function generateNpcsArray(level) {

@@ -219,6 +219,8 @@ Player.prototype.updateHead = function() {
 	} else if(this.headAction === "surprised" && this.prevHeadAction !== "surprised") {
 		this.prevHeadAction = "surprised";
 		this.head.src = "img/sprites/player/" + healthStatus + "/omg.png";
+	} else if(this.headAction === "pickup") {
+		this.head.src = "img/sprites/player/" + healthStatus + "/pickup.png";
 	} else if(this.headAction === "dead") {
 		this.head.src = "img/sprites/player/dead.png";
 	}
@@ -262,7 +264,7 @@ Player.prototype.attemptAttackNpc = function() {
 	var validNpcs = [];
 	for(var i = 0; i < window.game.npcs.length; i++) {
 		var npc = window.game.npcs[i];
-		if(npc.hp > 0 && this.isPointingAtNpc(npc) && this.isPointNotBlocked(npc.x, npc.y)) {
+		if(!npc.isPickup && npc.hp > 0 && this.isPointingAtNpc(npc) && this.isPointNotBlocked(npc.x, npc.y)) {
 			validNpcs.push(npc);
 		}
 	}

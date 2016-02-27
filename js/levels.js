@@ -134,6 +134,20 @@ var LEVELS = {
 				"fov": 160 * Math.PI / 180
 			},
 			{
+				"npcName": "HpPack",
+				"spriteName": "smallhppack",
+				"aggressive": true,
+				"x": 465,
+				"y": 105,
+				"angle": Math.PI,
+				"isRoaming": false,
+				"roamDist": 100,
+				"minimapColor": "white",
+				"interactable": false,
+				"interactions": null,
+				"fov": 2 * Math.PI
+			},
+			{
 				"npcName": "Commando",
 				"spriteName": "commando",
 				"aggressive": true,

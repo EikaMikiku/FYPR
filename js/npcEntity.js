@@ -4,6 +4,8 @@ function Npc(obj) {
 	this.base(obj.x, obj.y, "npc", obj.angle, obj.fov);
 	this.moveSpeed = obj.moveSpeed || npcData.moveSpeed;
 	this.roamSpeed = obj.roamSpeed || npcData.roamSpeed;
+	this.isPickup = npcData.ispickup || false;
+	this.onpickup = npcData.onpickup || null;
 	this.originX = obj.x;
 	this.originY = obj.y;
 	this.npcName = obj.npcName;
@@ -131,6 +133,10 @@ Npc.prototype.move = function() {
 	}
 };
 Npc.prototype.attackPlayer = function() {
+	if(this.isPickup) {
+		this.onpickup(this, window.game.getPlayer());
+		return;
+	}
 	SoundManager().playSound(this.sounds.attack, this.x, this.y);
 	if(Math.random() > this.missChance) {
 		window.game.getPlayer().getHit(this);
@@ -154,8 +160,8 @@ Npc.prototype.isPlayerVisible = function() {
 	return false;
 };
 Npc.prototype.frameAction = function() {
-	this.move();
 	this.updateSprite();
+	this.move();
 };
 Npc.prototype.getInteracted = function(interactorAngle) {
 	this.angle = interactorAngle + Math.PI;

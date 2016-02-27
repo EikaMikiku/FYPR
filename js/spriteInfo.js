@@ -219,6 +219,74 @@ var SPRITES = {
 			"injury": "sounds/saninjured.wav"
 		}
 	},
+	"smallhppack": {
+		"ispickup": true,
+		onpickup: function(npc, player) {
+			player.hp += 15;
+			player.headAction = "pickup";
+			player.updateHead();
+			player.hpInfo.textContent = player.hp;
+			setTimeout(function() {
+				player.headAction = player.prevHeadAction;
+				player.prevHeadAction = "pickup";
+				player.updateHead();
+			}, 1000);
+			window.game.removeNpc(npc);
+		},
+		"pointsWorth": -3,
+		"attackRange": 7,
+		"viewRange": 1000,
+		"damage": 0,
+		"missChance": 0,
+		"roamSpeed": 0,
+		"moveSpeed": 0,
+		"hp": 1000,
+		"hitstunChance": 0,
+		"idle": {
+			"rotatable": false,
+			"frameCount": 1,
+			"delays": [
+				1
+			]
+		},
+		"hitstun": {
+			"rotatable": false,
+			"frameCount": 1,
+			"delays": [
+				1
+			]
+		},
+		"walk": {
+			"rotatable": false,
+			"frameCount": 1,
+			"delays": [
+				1
+			]
+		},
+		"attack": {
+			"rotatable": false,
+			"frameCount": 1,
+			"delays": [
+				20
+			],
+			"attackFrame": {
+				"startFrame": 1,
+				"frameId": 0
+			}
+		},
+		"death": {
+			"rotatable": false,
+			"frameCount": 1,
+			"delays": [
+				Infinity
+			]
+		},
+		"sounds": {
+			"attack": "sounds/sanattack.wav",
+			"death": "sounds/sandeath.wav",
+			"injury": "sounds/saninjured.wav"
+		}
+	},
 	"weapons": {
 		"pistol": {
 			"frameCount": 3,
