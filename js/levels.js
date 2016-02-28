@@ -4,15 +4,13 @@ var LEVELS = {
 		"startText": "Find the pinky and talk to him. (green dot on map)",
 		"data": [
 			//Red
-			[260,60,260,39,250,39,240,29,210,19,210,9,79,9,79,40,130,40,130,29,110,29,110,20,139,20,139,49,49,49,49,100,69,100,69,119,39,119,39,129,-1000,129,-1000,0,420,-1000,420,67,79,67,79,89,60,89,60,60],
+			[-1000,130,29,130,81,78,81,67,397,67,397,-1000,-1000,-1000,-1000,130],
 			//Dark Orange
 			[129,69,180,69,180,80,170,80,170,89,189,89,189,65,123,65,123,117,182,117,182,110,129,110],
 			//Light Orange
 			[150,129,180,139,189,139,189,100,180,100,180,100,180,115,125,115,125,65,75,65,75,79,120,79,120,129],
-			//Yellow
-			[240,69,240,110,219,110,219,100,210,100,210,139,219,139,219,114,245,114,245,65,185,65,185,79,210,79,210,89,219,89,219,69],
 			//Lime
-			[330,69,330,100,289,100,289,90,280,90,280,110,270,110,270,130,275,130,294,105,435,105,435,64,243,64,243,112,215,112,215,119,259,119,259,110,249,110,249,69,280,69,280,79,289,79,289,69],
+			[330,69,330,100,289,100,289,90,280,90,280,110,270,110,270,130,275,130,294,105,435,105,435,64,185,64,185,69,280,69,280,79,289,79,289,69],
 			//Green
 			[279,139,299,119,299,109,390,109,390,149,399,149,399,103,292,103,272,130,260,130,260,139],
 			//Teal
@@ -58,7 +56,6 @@ var LEVELS = {
 			"img/wallTextures/lev0wall1.png", //Exit
 			"img/wallTextures/lev0wall13.png", //Storage
 			"img/wallTextures/lev0wall0.png", //Near exit
-			"img/wallTextures/lev0wall16.png", //Control rooms
 			"img/wallTextures/lev0wall16.png", //Control rooms
 			"img/wallTextures/lev0wall14.png", //Dinner hall
 			"img/wallTextures/lev0wall5.png", //To dinner hall
@@ -142,7 +139,49 @@ var LEVELS = {
 				"angle": Math.PI,
 				"isRoaming": false,
 				"roamDist": 100,
-				"minimapColor": "white",
+				"minimapColor": "rgb(0,0,0,0)",
+				"interactable": false,
+				"interactions": null,
+				"fov": 2 * Math.PI
+			},
+			{
+				"npcName": "HpPack",
+				"spriteName": "smallhppack",
+				"aggressive": true,
+				"x": 355,
+				"y": 155,
+				"angle": Math.PI,
+				"isRoaming": false,
+				"roamDist": 100,
+				"minimapColor": "rgb(0,0,0,0)",
+				"interactable": false,
+				"interactions": null,
+				"fov": 2 * Math.PI
+			},
+			{
+				"npcName": "HpPack",
+				"spriteName": "smallhppack",
+				"aggressive": true,
+				"x": 130,
+				"y": 370,
+				"angle": Math.PI,
+				"isRoaming": false,
+				"roamDist": 100,
+				"minimapColor": "rgb(0,0,0,0)",
+				"interactable": false,
+				"interactions": null,
+				"fov": 2 * Math.PI
+			},
+			{
+				"npcName": "HpPack",
+				"spriteName": "smallhppack",
+				"aggressive": true,
+				"x": 100,
+				"y": 370,
+				"angle": Math.PI,
+				"isRoaming": false,
+				"roamDist": 100,
+				"minimapColor": "rgb(0,0,0,0)",
 				"interactable": false,
 				"interactions": null,
 				"fov": 2 * Math.PI
@@ -250,22 +289,8 @@ var LEVELS = {
 				"npcName": "Marine",
 				"spriteName": "marine",
 				"aggressive": true,
-				"x": 320,
-				"y": 190,
-				"angle": 0,
-				"isRoaming": true,
-				"roamDist": 30,
-				"minimapColor": "red",
-				"interactable": false,
-				"interactions": null,
-				"fov": 160 * Math.PI / 180
-			},
-			{
-				"npcName": "Marine",
-				"spriteName": "marine",
-				"aggressive": true,
-				"x": 320,
-				"y": 120,
+				"x": 330,
+				"y": 150,
 				"angle": 0,
 				"isRoaming": true,
 				"roamDist": 30,
@@ -306,20 +331,6 @@ var LEVELS = {
 				"npcName": "Marine",
 				"spriteName": "marine",
 				"aggressive": true,
-				"x": 175,
-				"y": 30,
-				"angle": 0,
-				"isRoaming": true,
-				"roamDist": 30,
-				"minimapColor": "red",
-				"interactable": false,
-				"interactions": null,
-				"fov": 160 * Math.PI / 180
-			},
-			{
-				"npcName": "Marine",
-				"spriteName": "marine",
-				"aggressive": true,
 				"x": 125,
 				"y": 215,
 				"angle": Math.PI,
@@ -351,7 +362,7 @@ var LEVELS = {
 				"x": 104,
 				"y": 215,
 				"angle": 0,
-				"isRoaming": false,
+				"isRoaming": true,
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
@@ -379,21 +390,7 @@ var LEVELS = {
 				"x": 100,
 				"y": 94,
 				"angle": 0,
-				"isRoaming": true,
-				"roamDist": 30,
-				"minimapColor": "red",
-				"interactable": false,
-				"interactions": null,
-				"fov": 160 * Math.PI / 180
-			},
-			{
-				"npcName": "Commando",
-				"spriteName": "commando",
-				"aggressive": true,
-				"x": 203,
-				"y": 31,
-				"angle": 0,
-				"isRoaming": true,
+				"isRoaming": false,
 				"roamDist": 30,
 				"minimapColor": "red",
 				"interactable": false,
