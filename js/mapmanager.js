@@ -1,6 +1,6 @@
 var MapManager = (function() {
 	var instance;
-	function createInstance(player) {
+	function createInstance(startingLevel, player) {
 		function MapManager(){};
 		var mapCanvas = document.getElementById("mapCanvas");
 		var mapContext = mapCanvas.getContext("2d");
@@ -11,7 +11,7 @@ var MapManager = (function() {
 		var enemyViewSize = 20;
 		var showingMap = false;
 		var playerSize = 3;
-		MapManager.mapLevel = 0; //public
+		MapManager.mapLevel = startingLevel;
 
 		MapManager.render = function() {
 			if(!showingMap) return;
@@ -113,8 +113,8 @@ var MapManager = (function() {
 		return MapManager;
 	}
 
-	return function(player) {
-		if(!instance) instance = createInstance(player);
+	return function(startingLevel, player) {
+		if(!instance) instance = createInstance(startingLevel, player);
 		return instance;
 	};
 })();

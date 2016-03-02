@@ -63,7 +63,7 @@ var SPRITES = {
 		"roamSpeed": 0.8,
 		"moveSpeed": 1,
 		"hp": 1500,
-		"hitstunChance": 0.7031,
+		"hitstunChance": 0.6031,
 		"idle": {
 			"rotatable": true,
 			"frameCount": 1,
@@ -324,7 +324,7 @@ var SPRITES = {
 		"shotgun2": {
 			"frameCount": 7,
 			"delays": [
-				3, 3, 8, 8, 8, 10, 6
+				3, 3, 7, 20, 10, 10, 10
 			],
 			"attackFrame": {
 				"startFrame": 1,
@@ -344,7 +344,7 @@ var SPRITES = {
 		"machinegun": {
 			"frameCount": 2,
 			"delays": [
-				5, 5
+				3, 4
 			],
 			"attackFrame": {
 				"startFrame": 1,

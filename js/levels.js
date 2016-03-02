@@ -1,5 +1,76 @@
 var LEVELS = {
+	"arena": {
+		getPlayerPosition: function() {
+			var spawns = [
+				{
+					"x": 46,
+					"y": 180,
+					"angle": Math.PI / 2
+				},
+				{
+					"x": 158,
+					"y": 215,
+					"angle": 4 * Math.PI / 3
+				},
+				{
+					"x": 239,
+					"y": 223,
+					"angle": 3 * Math.PI / 4
+				},
+				{
+					"x": 258,
+					"y": 105,
+					"angle": Math.PI
+				},
+				{
+					"x": 105,
+					"y": 88,
+					"angle": 0
+				},
+			]
+			return spawns[~~(Math.random()*5)];
+		},
+		"name": "1v1 Arena",
+		"startText": "Kill him.",
+		"data": [
+			//Outer
+			[-1000,200,9,200,50,262,100,291,200,291,250,262,291,200,1000,200,1000,1000,-1000,1000],
+			[200,1000,200,291,250,262,291,200,291,100,262,50,200,9,200,-1000,1000,-1000,1000,1000],
+			[1000,100,291,100,262,50,200,9,100,9,50,38,9,100,-1000,100,-1000,-1000,1000,-1000],
+			[100,-1000,100,9,50,38,9,100,9,200,50,262,100,291,100,1000,-1000,1000,-1000,-1000],
+			//Left bottom ¬ shape
+			[-1000,144,80,144,80,203,62,203,62,162,-1000,162],
+			//Center bottom tick shape
+			[122,215,133,204,157,228,195,190,206,201,157,250],
+			//S shape
+			[76,61,91,61,91,99,155,99,155,151,140,151,140,114,76,114],
+			//top square
+			[203,59,235,59,235,91,203,91],
+			//bottom square
+			[222,129,259,129,259,166,222,166]
+		],
+		"textures": [
+			"img/wallTextures/lev0wall3.png",
+			"img/wallTextures/lev0wall2.png",
+			"img/wallTextures/lev0wall6.png",
+			"img/wallTextures/lev0wall7.png",
+			"img/wallTextures/lev0wall0.png",
+			"img/wallTextures/lev0wall8.png",
+			"img/wallTextures/lev0wall10.png",
+			"img/wallTextures/lev0wall5.png",
+			"img/wallTextures/lev0wall9.png"
+		],
+		"npcs": [
+		]
+	},
 	"0": {
+		getPlayerPosition: function() {
+			return {
+				"x": 455,
+				"y": 65,
+				"angle": Math.PI / 2
+			};
+		},
 		"name": "Level 0",
 		"startText": "Find the pinky and talk to him. (green dot on map)",
 		"data": [

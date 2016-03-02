@@ -301,3 +301,9 @@
 	background-color: coral;
 	color: white;
 }
+#pauseMenu {
+	display: none;
+}
+#multiplayerMenu {
+	display: none;
+}

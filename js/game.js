@@ -2,9 +2,9 @@ var Game = (function() {
 	var instance;
 	function createInstance() {
 		function Game(){};
-		var player = new Player(455, 65, Math.PI / 2);
-		//var player = new Player(50, 100, Math.PI/2);
-		var mapManager = MapManager(player);
+		var pPos = LEVELS[0].getPlayerPosition();
+		var player = new Player(pPos.x, pPos.y, pPos.angle);
+		var mapManager = MapManager(0, player);
 		var guiManager = GuiManager();
 		var gameCanvas = document.getElementById("gameCanvas");
 		gameCanvas.requestPointerLock = gameCanvas.requestPointerLock || gameCanvas.mozRequestPointerLock;
@@ -136,9 +136,10 @@ var Game = (function() {
 		}
 
 		function resetPlayer() {
-			player.x = 455;
-			player.y = 65;
-			player.angle = Math.PI / 2;
+			var pPos = LEVELS[mapManager.mapLevel].getPlayerPosition();
+			player.x = pPos.x;
+			player.y = pPos.y;
+			player.angle = pPos.angle;
 			player.hp = 100;
 			player.hpInfo.textContent = 100;
 			player.currentShootSpriteId = 0;
