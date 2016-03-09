@@ -6,7 +6,8 @@ var GuiManager = (function() {
 		var menus = [
 			document.getElementById("mainMenu").children,
 			document.getElementById("pauseMenu").children,
-			document.getElementById("multiplayerMenu").children
+			document.getElementById("multiplayerMenu").children,
+			document.getElementById("inMultiplayerMenu").children
 		];
 		var selectedIndex = 0;
 		var currentMenu = 0;
@@ -18,24 +19,34 @@ var GuiManager = (function() {
 				GuiManager.hide();
 			},
 			newGameButton: function() {
-				window.game.initLevel();
+				window.game.initLevel("0");
 				GuiManager.hide();
 			},
 			multiplayerButton: function() {
-				changeMenu(2);
+				GuiManager.changeMenu(2);
 			},
 			backButton: function() {
-				changeMenu(previousMenu);
+				GuiManager.changeMenu(previousMenu);
 			},
 			aboutButton: function() {
 				alert("Some information should be here");
 			},
 			hostGameButton: function() {
-
+				if(!window.game.inMultiplayer) {
+					NetManager().host(startMultiplayer);
+				}
 			},
 			joinGameButton: function() {
-
+				if(!window.game.inMultiplayer) {
+					NetManager().join(startMultiplayer);
+				}
 			},
+			disconnectButton: function() {
+				if(window.game.inMultiplayer) {
+					NetManager().disconnect();
+					GuiManager.changeMenu(0);
+				}
+			}
 		};
 
 		GuiManager.selectMenuItem = function() {
@@ -45,7 +56,11 @@ var GuiManager = (function() {
 		GuiManager.show = function() {
 			guiContainer.style.opacity = 1;
 			if(window.game.getPauseState()) {
-				changeMenu(1);
+				if(!window.game.inMultiplayer) {
+					GuiManager.changeMenu(1);
+				} else {
+					GuiManager.changeMenu(3);
+				}
 			} else {
 				updateGui();
 			}
@@ -65,14 +80,20 @@ var GuiManager = (function() {
 				updateGui();
 			}
 		};
-
-		function changeMenu(idx) {
+		GuiManager.changeMenu = function(idx) {
 			previousMenu = currentMenu;
 			menus[currentMenu][0].parentElement.style.display = "none";
 			currentMenu = idx;
 			menus[currentMenu][0].parentElement.style.display = "block";
 			selectedIndex = 0;
 			updateGui();
+		};
+
+		function startMultiplayer() {
+			window.game.inMultiplayer = true;
+			window.game.initLevel("arena");
+			NetManager().enemyNpc = window.game.npcs[0];
+			GuiManager.hide();
 		}
 
 		function updateGui() {

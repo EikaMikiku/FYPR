@@ -26,9 +26,11 @@ var Game = (function() {
 			"space": false
 		};
 		var weapons = ["chainsaw", "pistol", "shotgun", "machinegun", "rocketlauncher"];
-		Game.terminal = document.getElementById("dialogWindow");
 		var gamePoints = document.getElementById("gamePoints");
+
+		Game.terminal = document.getElementById("dialogWindow");
 		Game.points = 0;
+		Game.inMultiplayer = false;
 		Game.getGameCanvas = function() {
 			return gameCanvas;
 		};
@@ -76,11 +78,12 @@ var Game = (function() {
 			player.bloodScreen.style.opacity = 0;
 			gameOverScreen.style.display = "block";
 		};
-		Game.initLevel = function() {
+		Game.initLevel = function(levelName) {
+			mapManager.mapLevel = levelName;
 			while(Game.terminal.firstChild) {
 				Game.terminal.removeChild(Game.terminal.firstChild);
 			}
-			resetPlayer();
+			Game.resetPlayer();
 			Game.points = 0;
 			gameOverScreen.style.display = "none";
 			gameCompletedScreen.style.display = "none";
@@ -125,6 +128,20 @@ var Game = (function() {
 		Game.removeNpc = function(npc) {
 			toRemoveNpcs.push(npc);
 		};
+		Game.resetPlayer = function() {
+			var pPos = LEVELS[mapManager.mapLevel].getPlayerPosition();
+			player.x = pPos.x;
+			player.y = pPos.y;
+			player.angle = pPos.angle;
+			player.hp = 100;
+			player.hpInfo.textContent = 100;
+			player.currentShootSpriteId = 0;
+			player.weaponAction = "idle";
+			player.changeWeapon("pistol");
+			player.headAction = "idle";
+			player.prevHeadAction = null;
+			player.updateHead();
+		};
 
 		function generateNpcsArray(level) {
 			var arr = [];
@@ -135,17 +152,6 @@ var Game = (function() {
 			return arr;
 		}
 
-		function resetPlayer() {
-			var pPos = LEVELS[mapManager.mapLevel].getPlayerPosition();
-			player.x = pPos.x;
-			player.y = pPos.y;
-			player.angle = pPos.angle;
-			player.hp = 100;
-			player.hpInfo.textContent = 100;
-			player.currentShootSpriteId = 0;
-			player.weaponAction = "idle";
-			player.changeWeapon("pistol");
-		}
 		//Events
 		document.addEventListener("keydown", keyDownHandler);
 		document.addEventListener("keyup", keyUpHandler);

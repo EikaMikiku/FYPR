@@ -133,6 +133,9 @@ Npc.prototype.move = function() {
 	}
 };
 Npc.prototype.attackPlayer = function() {
+	if(window.game.inMultiplayer) {
+		return;
+	}
 	if(this.isPickup) {
 		this.onpickup(this, window.game.getPlayer());
 		return;
@@ -161,7 +164,13 @@ Npc.prototype.isPlayerVisible = function() {
 };
 Npc.prototype.frameAction = function() {
 	this.updateSprite();
-	this.move();
+	if(!window.game.inMultiplayer) {
+		this.move();
+	} else {
+		if(this.hp <= 0) {
+			this.action = "death";
+		}
+	}
 };
 Npc.prototype.getInteracted = function(interactorAngle) {
 	this.angle = interactorAngle + Math.PI;
@@ -200,7 +209,7 @@ Npc.prototype.takeDamage = function(dmg) {
 		window.game.points += this.pointsWorth;
 		SoundManager().playSound(this.sounds.death, this.x, this.y);
 	}
-	if(Math.random() < this.hitstunChance) {
+	if(Math.random() < this.hitstunChance && !window.game.inMultiplayer) {
 		SoundManager().playSound(this.sounds.injury, this.x, this.y);
 		this.action = "hitstun";
 		this.currentSpriteId = 0;

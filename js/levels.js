@@ -61,6 +61,21 @@ var LEVELS = {
 			"img/wallTextures/lev0wall9.png"
 		],
 		"npcs": [
+			{
+				"npcName": "Enemy",
+				"spriteName": "marine",
+				"aggressive": false,
+				"x": 0,
+				"y": 0,
+				"angle": 0,
+				"isRoaming": false,
+				"roamDist": 50,
+				"minimapColor": "red",
+				"interactable": false,
+				"interactions": null,
+				"fov": 2 * Math.PI,
+				"hp": 100
+			}
 		]
 	},
 	"0": {

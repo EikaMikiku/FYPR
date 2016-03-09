@@ -161,6 +161,14 @@ Player.prototype.frameAction = function() {
 	}
 	SoundManager().audioContext.listener.setPosition(this.x, 0, this.y);
 	SoundManager().audioContext.listener.setOrientation(Math.cos(this.angle), 0, Math.sin(this.angle), 0, 1, 0);
+	if(window.game.inMultiplayer) {
+		NetManager().sendData({
+			"type": "pos",
+			"x": this.x,
+			"y": this.y,
+			"angle": this.angle
+		});
+	}
 };
 Player.prototype.showInteractAvailable = function(npc) {
 	if(!this.showingInteractHelp) {
@@ -174,13 +182,24 @@ Player.prototype.hideInteractAvailable = function() {
 };
 Player.prototype.getHit = function(npc) {
 	this.hp -= npc.damage;
+	this.hpInfo.textContent = this.hp;
 	this.bloodScreen.style.opacity = parseFloat(this.bloodScreen.style.opacity) + npc.damage / 20;
 	if(this.hp <= 0) {
 		this.headAction = "dead";
 		this.updateHead();
-		window.game.gameOver();
+		if(window.game.inMultiplayer) {
+			window.game.addToTerminal("Points: " + (--NetManager().points), function(){});
+			setTimeout(function() {
+				window.game.resetPlayer();
+				NetManager().sendData({
+					"type": "reset"
+				});
+			}, 3000);
+		} else {
+			window.game.gameOver();
+		}
+		return;
 	}
-	this.hpInfo.textContent = this.hp;
 	var newHeadAction = "attacked";
 	if(npc.damage >= 20 || this.hp < 30) {
 		newHeadAction = "surprised";
@@ -282,7 +301,19 @@ Player.prototype.attemptAttackNpc = function() {
 	}
 	if(minDistNpc) {
 		var dmg = SPRITES["weapons"][this.weapon].damageCalculation(Math.sqrt(minDist));
-		minDistNpc.takeDamage(dmg);
+		if(window.game.inMultiplayer) {
+			dmg = Math.ceil(dmg / 10);
+			NetManager().sendData({
+				"type": "shot",
+				"dmg": dmg
+			});
+			minDistNpc.hp -= dmg;
+			if(minDistNpc.hp <= 0) {
+				SoundManager().playSound(minDistNpc.sounds.death, minDistNpc.x, minDistNpc.y);
+			}
+		} else {
+			minDistNpc.takeDamage(dmg);
+		}
 	}
 };
 Player.prototype.isPointingAtNpc = function(npc) {
