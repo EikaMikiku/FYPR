@@ -17,25 +17,24 @@
 		<script type="text/javascript" src="js/netmanager.js"></script>
 	</head>
 	<body>
-		<div>
+		<div id="tips" data-state="off">
 			UP/DOWN buttons to use menu
 			<br>
 			Enter or space to select
 			<br>
 			P to pause
 			<br>
-			WASD to move!
+			WASD to move
 			<br>
-			E to interact!
+			E to interact
 			<br>
-			Tab to check map!
-			<br>
-			Shift to toggle walk/run!
+			Tab to check map
 			<br>
 			Space to shoot! (Mouse 0 in mouse lock)
 			<br>
-			Click on <u>gamescreen</u> for mouse lock! (You can strafe using "A" and "D" in mouse lock)
+			Click on <u>gamescreen</u> for mouse lock!
 		</div>
+		<div id="tipToggle">Show hints</div>
 		<div id="gameContainer" class="thickBorder">
 			<canvas id="gameCanvas" width="600" height="400"></canvas>
 			<canvas id="mapCanvas" width="600" height="400"></canvas>
@@ -102,6 +101,20 @@
 		</div>
 	</body>
 	<script type="text/javascript">
+	document.getElementById("tipToggle").onclick = function() {
+		var tips = document.getElementById("tips"); 
+		var state = tips.dataset.state;
+		
+		if(state === "on") {
+			tips.setAttribute("data-state", "off");
+			tips.style.maxHeight = "0px";
+			this.textContent = "Show tips";
+		} else {
+			tips.setAttribute("data-state", "on");
+			tips.style.maxHeight = "175px";
+			this.textContent = "Hide tips";
+		}
+	};
 	window.onload = function() {
 		window.TWO_PI = Math.PI*2;
 		window.GAME_CANVAS_BG_WIDTH = 3600;

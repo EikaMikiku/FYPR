@@ -277,7 +277,7 @@
 	top: 50%;
 	margin-left: -320px;
 	margin-top: -280px;
-	background-color: black;
+	background-image: url("../img/guibg.png");
 	z-index: 101;
 	width: 640px;
 	pointer-events: none;
@@ -309,4 +309,34 @@
 }
 #inMultiplayerMenu {
 	display: none;
+}
+#tips {
+	background-color: #DDF;
+	background: linear-gradient(to bottom,  #FFF 10%,#CCF 100%);
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	overflow: hidden;
+	max-height: 0;
+	transition: max-height 1s;
+	z-index: 103;
+	border-top: 3px solid black;
+}
+#tipToggle {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	color: black;
+	background-color: white;
+	border-top-left-radius: 10px;
+	padding-left: 5px;
+	padding-top: 3px;
+	cursor: pointer;
+	border-left: 1px solid black;
+	border-top: 1px solid black;
+	z-index: 104;
+}
+#tipToggle:hover {
+	color: white;
+	background-color: black;
 }

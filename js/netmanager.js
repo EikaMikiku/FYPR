@@ -11,6 +11,7 @@ var NetManager = (function() {
 		NetManager.host = function(startMultiplayer) {
 			initPeer(function() {
 				startMultiplayer();
+				prompt("Copy your id and pass it to another person to join:", myPeerId);
 			});
 		};
 		NetManager.join = function(startMultiplayer) {
@@ -47,7 +48,6 @@ var NetManager = (function() {
 			peer = new Peer({"key": "z0uvirkvbb0m5cdi"});
 			peer.on("open", function(id) {
 				myPeerId = id;
-				console.log(myPeerId);
 
 				peer.on("connection", function(conn) {
 					conn.on("open", function() {
