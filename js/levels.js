@@ -225,7 +225,7 @@ var LEVELS = {
 				"angle": Math.PI,
 				"isRoaming": false,
 				"roamDist": 100,
-				"minimapColor": "rgb(0,0,0,0)",
+				"minimapColor": "rgba(0,0,0,0)",
 				"interactable": false,
 				"interactions": null,
 				"fov": 2 * Math.PI
@@ -239,7 +239,7 @@ var LEVELS = {
 				"angle": Math.PI,
 				"isRoaming": false,
 				"roamDist": 100,
-				"minimapColor": "rgb(0,0,0,0)",
+				"minimapColor": "rgba(0,0,0,0)",
 				"interactable": false,
 				"interactions": null,
 				"fov": 2 * Math.PI
@@ -253,7 +253,7 @@ var LEVELS = {
 				"angle": Math.PI,
 				"isRoaming": false,
 				"roamDist": 100,
-				"minimapColor": "rgb(0,0,0,0)",
+				"minimapColor": "rgba(0,0,0,0)",
 				"interactable": false,
 				"interactions": null,
 				"fov": 2 * Math.PI
@@ -267,7 +267,7 @@ var LEVELS = {
 				"angle": Math.PI,
 				"isRoaming": false,
 				"roamDist": 100,
-				"minimapColor": "rgb(0,0,0,0)",
+				"minimapColor": "rgba(0,0,0,0)",
 				"interactable": false,
 				"interactions": null,
 				"fov": 2 * Math.PI

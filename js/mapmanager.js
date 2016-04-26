@@ -53,6 +53,7 @@ var MapManager = (function() {
 			for(var i = 0; i < npcs.length; i++) {
 				var npc = npcs[i];
 				if(npc.hp <= 0) continue;
+				if(npc.aggressive && !npc.roaming && !npc.attacking) continue;
 				mapContext.fillStyle = npc.minimapColor;
 				mapContext.beginPath();
 				mapContext.arc(npc.x, npc.y, pointSize, 0, window.TWO_PI);

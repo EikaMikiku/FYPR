@@ -74,6 +74,7 @@ var Game = (function() {
 		};
 		Game.gameOver = function() {
 			gameOver = true;
+			guiManager.changeMenu(0);
 			guiManager.show();
 			player.bloodScreen.style.opacity = 0;
 			gameOverScreen.style.display = "block";
